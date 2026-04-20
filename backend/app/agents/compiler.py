@@ -70,7 +70,9 @@ def make_compiler_tools(db: AsyncSession, model_id: str) -> tuple[list[Callable]
         links: list[str],
         source_raw_ids: list[str],
     ) -> str:
-        """Create or update a wiki page. slug must be lowercase with hyphens (e.g. 'ricezione-merci')."""
+        """Create or update a wiki page. slug must be lowercase with hyphens (e.g. 'ricezione-merci').
+        links is a list of other wiki page slugs this page references.
+        source_raw_ids is a list of ProcedureRaw UUIDs (as strings) that were compiled into this page."""
         result = await db.execute(select(ProcedureWiki).where(ProcedureWiki.slug == slug))
         page = result.scalar_one_or_none()
         now = datetime.now(timezone.utc)
@@ -97,7 +99,8 @@ def make_compiler_tools(db: AsyncSession, model_id: str) -> tuple[list[Callable]
             db.add(page)
             action = "creata"
         await db.flush()
-        state["affected_slugs"].append(slug)
+        if slug not in state["affected_slugs"]:
+            state["affected_slugs"].append(slug)
         return f"Pagina wiki '{slug}' {action} con successo."
 
     async def delete_wiki_page(slug: str) -> str:
