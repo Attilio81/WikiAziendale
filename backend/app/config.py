@@ -10,8 +10,8 @@ class Settings(BaseSettings):
     LLM_PROVIDER: str = "lmstudio"
 
     LMSTUDIO_BASE_URL: str = "http://192.168.44.150:1234/v1"
-    LMSTUDIO_MODEL_COMPILER: str = "qwen3-8b"
-    LMSTUDIO_MODEL_QUERY: str = "qwen3-8b"
+    LMSTUDIO_MODEL_COMPILER: str = "qwen/qwen3-8b"
+    LMSTUDIO_MODEL_QUERY: str = "qwen/qwen3-8b"
 
     OPENAI_API_KEY: str = ""
     OPENAI_MODEL_COMPILER: str = "gpt-4o-mini"
