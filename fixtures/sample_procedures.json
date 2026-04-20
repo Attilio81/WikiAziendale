@@ -1,0 +1,128 @@
+[
+  {
+    "titolo": "Ricezione merci da fornitore",
+    "categoria": "Magazzino",
+    "autore": "Mario Rossi",
+    "tags": ["magazzino", "ricezione", "fornitore", "DDT"],
+    "contenuto_md": "## Ricezione merci da fornitore\n\n### Scopo\nDefinire le modalità di ricezione e verifica delle merci in ingresso dai fornitori.\n\n### Responsabile\nMagazziniere / Capo magazzino\n\n### Procedura\n1. All'arrivo del trasportatore, richiedere il DDT (Documento di Trasporto).\n2. Confrontare il DDT con l'ordine di acquisto presente a sistema (gestionale).\n3. Verificare la corrispondenza di: codice articolo, quantità, unità di misura.\n4. Ispezionare visivamente il collo per danni da trasporto.\n5. Se tutto è conforme: firmare il DDT e inserire la ricezione nel gestionale.\n6. Se ci sono discrepanze o danni: vedi procedura **Gestione non conformità materiale**.\n7. Posizionare la merce nell'area di quarantena in attesa del controllo qualità.\n\n### Note\n- Per merci pericolose verificare anche la scheda di sicurezza.\n- I DDT firmati vanno archiviati in cartella fisica entro fine giornata."
+  },
+  {
+    "titolo": "Controllo qualità materiali in ingresso",
+    "categoria": "Qualità",
+    "autore": "Laura Bianchi",
+    "tags": ["qualità", "controllo", "ingresso", "campionamento"],
+    "contenuto_md": "## Controllo qualità materiali in ingresso\n\n### Scopo\nDefinire il processo di campionamento e verifica qualitativa dei materiali ricevuti prima dell'immissione in produzione.\n\n### Responsabile\nAddetto qualità\n\n### Quando si applica\nSempre dopo la **Ricezione merci da fornitore**, prima che la merce lasci l'area di quarantena.\n\n### Procedura\n1. Prelevare campioni secondo il piano di campionamento (tabella in allegato Q-001).\n2. Verificare: grammatura, dimensioni, colore, resistenza (se applicabile).\n3. Compilare il modulo MC-01 con i valori rilevati.\n4. **Se conforme:** aggiornare lo stato lotto nel gestionale da 'quarantena' a 'disponibile'.\n5. **Se non conforme:** aprire una Non Conformità (vedi **Gestione non conformità materiale**).\n\n### KPI\n- Tempo medio di controllo < 4h dalla ricezione."
+  },
+  {
+    "titolo": "Gestione non conformità materiale",
+    "categoria": "Qualità",
+    "autore": "Laura Bianchi",
+    "tags": ["qualità", "non conformità", "NC", "fornitore", "reso"],
+    "contenuto_md": "## Gestione non conformità materiale\n\n### Scopo\nGestire i materiali che non rispettano le specifiche d'acquisto o che risultano danneggiati alla ricezione.\n\n### Responsabile\nAddetto qualità + Ufficio acquisti\n\n### Procedura\n1. Isolare fisicamente il materiale non conforme nell'area NC (zona rossa).\n2. Aprire il rapporto NC nel sistema (modulo NC-01) con: codice articolo, lotto, descrizione difetto, quantità.\n3. Scattare foto e allegare al rapporto NC.\n4. Inviare comunicazione scritta al fornitore entro 24h.\n5. Attendere risposta del fornitore (max 5 giorni lavorativi).\n6. **Se il fornitore accetta la NC:** procedere con **Reso merce a fornitore**.\n7. **Se il fornitore contesta:** escalation al responsabile acquisti.\n8. Aggiornare il rating qualità del fornitore nel sistema.\n\n### Documentazione\n- Modulo NC-01\n- Foto difetti\n- Corrispondenza con fornitore"
+  },
+  {
+    "titolo": "Emissione DDT per spedizioni clienti",
+    "categoria": "Logistica",
+    "autore": "Giovanni Verdi",
+    "tags": ["DDT", "spedizione", "cliente", "logistica", "gestionale"],
+    "contenuto_md": "## Emissione DDT per spedizioni clienti\n\n### Scopo\nDefinire la procedura per la corretta emissione del Documento di Trasporto per le spedizioni verso clienti.\n\n### Responsabile\nUfficio logistica / Magazzino\n\n### Prerequisiti\n- Ordine cliente confermato e presente a sistema.\n- Merce pronta e ubicata in area spedizioni.\n\n### Procedura\n1. Aprire il gestionale e accedere alla commessa o all'ordine cliente.\n2. Verificare la corrispondenza tra merce fisica e righe ordine.\n3. Emettere il DDT dal gestionale (menu: Logistica > DDT > Nuovo).\n4. Compilare: destinatario, indirizzo di consegna, articoli, quantità, peso lordo/netto.\n5. Indicare il vettore e il numero colli.\n6. Stampare 3 copie: 1 per il trasportatore, 1 per il cliente, 1 per archivio interno.\n7. Far firmare la copia interna al trasportatore al momento del ritiro.\n8. Archiviare la copia firmata in ordine cronologico.\n\n### Attenzione\n- Il DDT deve essere emesso PRIMA del carico sul mezzo.\n- Per clienti esteri: verificare documenti doganali aggiuntivi con ufficio amministrativo."
+  },
+  {
+    "titolo": "Gestione reso merce da cliente",
+    "categoria": "Commerciale",
+    "autore": "Francesca Neri",
+    "tags": ["reso", "cliente", "commerciale", "nota credito"],
+    "contenuto_md": "## Gestione reso merce da cliente\n\n### Scopo\nDefinire come gestire la restituzione di merce da parte di un cliente, sia per difettosità che per errore d'ordine.\n\n### Responsabile\nUfficio commerciale + Qualità (per analisi difetti)\n\n### Procedura\n1. Il commerciale riceve la richiesta di reso (telefono, email, portale).\n2. Verificare se il reso rientra nelle condizioni contrattuali (entro 30gg, merce non lavorata).\n3. Autorizzare il reso e comunicare al cliente il numero di RA (Return Authorization).\n4. Alla ricezione fisica della merce: ispezionarla con il responsabile qualità.\n5. **Se la difettosità è confermata:** emettere nota di credito e aprire NC interna.\n6. **Se la merce è in perfette condizioni:** reinserire a magazzino e emettere nota di credito solo se errore nostro.\n7. Aggiornare il CRM con l'esito del reso e le motivazioni.\n\n### Collegamento\n- Per gestire reclami formali, vedi **Gestione reclamo cliente**.\n- Per resi verso fornitore per merce difettosa, vedi **Reso merce a fornitore**."
+  },
+  {
+    "titolo": "Reso merce a fornitore",
+    "categoria": "Acquisti",
+    "autore": "Marco Colombo",
+    "tags": ["reso", "fornitore", "acquisti", "NC"],
+    "contenuto_md": "## Reso merce a fornitore\n\n### Scopo\nDefinire la procedura per la restituzione di materiali non conformi o in eccesso ai fornitori.\n\n### Responsabile\nUfficio acquisti + Magazzino\n\n### Prerequisiti\n- Non Conformità aperta e accettata dal fornitore (vedi **Gestione non conformità materiale**).\n- Autorizzazione scritta del fornitore al reso.\n\n### Procedura\n1. Richiedere il numero RMA (Return Merchandise Authorization) al fornitore.\n2. Predisporre la merce in area spedizioni con etichetta 'RESO FORNITORE'.\n3. Emettere il DDT di reso dal gestionale (tipo documento: 'Reso a fornitore').\n4. Spedire tramite il vettore indicato dal fornitore (solitamente a loro spese se NC).\n5. Inviare per email al fornitore: copia DDT + rapporto NC + foto difetti.\n6. Monitorare il credito o la sostituzione entro i termini concordati.\n7. Chiudere la NC nel sistema quando il credito è ricevuto o la merce sostitutiva arriva.\n\n### Nota\n- Conservare copia del DDT di reso e della RAC (Ricevuta Accettazione Credito)."
+  },
+  {
+    "titolo": "Richiesta preventivo a fornitore",
+    "categoria": "Acquisti",
+    "autore": "Marco Colombo",
+    "tags": ["acquisti", "RFQ", "preventivo", "fornitore"],
+    "contenuto_md": "## Richiesta preventivo a fornitore (RFQ)\n\n### Scopo\nStandardizzare il processo di raccolta preventivi per nuovi materiali o forniture.\n\n### Responsabile\nUfficio acquisti\n\n### Quando si applica\n- Nuovo articolo da approvvigionare.\n- Rinnovo contratto annuale.\n- Valutazione fornitori alternativi.\n\n### Procedura\n1. Compilare la scheda RFQ (modulo AQ-01) con: descrizione materiale, quantità annua stimata, specifiche tecniche, data di risposta richiesta.\n2. Inviare la RFQ ad almeno 3 fornitori qualificati (vedi Albo fornitori).\n3. Raccogliere le offerte entro la scadenza indicata.\n4. Creare la tabella comparativa prezzi/condizioni nel gestionale.\n5. Selezionare il fornitore e inviare ordine di conferma o negoziare ulteriormente.\n6. Archiviare tutte le offerte ricevute per 5 anni.\n\n### Soglie di approvazione\n- < 5.000€: approvazione acquisti\n- 5.000-20.000€: approvazione responsabile acquisti\n- > 20.000€: approvazione direzione"
+  },
+  {
+    "titolo": "Gestione offerta commerciale a cliente",
+    "categoria": "Commerciale",
+    "autore": "Francesca Neri",
+    "tags": ["offerta", "commerciale", "cliente", "preventivo"],
+    "contenuto_md": "## Gestione offerta commerciale a cliente\n\n### Scopo\nDefinire il processo di creazione, approvazione e invio di offerte commerciali ai clienti.\n\n### Responsabile\nUfficio commerciale\n\n### Procedura\n1. Ricevuta la richiesta del cliente (RFQ), aprire un'opportunità nel CRM.\n2. Verificare con ufficio tecnico la fattibilità della lavorazione richiesta.\n3. Calcolare il costo di produzione (distinta base + ore macchina + overhead).\n4. Applicare il margine commerciale approvato dalla direzione.\n5. Creare l'offerta nel gestionale (menu: Commerciale > Offerte > Nuova).\n6. Compilare: intestazione cliente, righe prodotto, prezzi, condizioni di pagamento, termini di consegna, validità offerta (30gg standard).\n7. Richiedere approvazione interna se importo > 10.000€.\n8. Inviare l'offerta via email con PDF allegato.\n9. Registrare nel CRM la data di invio e fissare follow-up a 7 giorni.\n\n### Collegamento\n- Se l'offerta viene accettata: vedi **Apertura commessa di produzione**."
+  },
+  {
+    "titolo": "Apertura commessa di produzione",
+    "categoria": "Produzione",
+    "autore": "Roberto Fontana",
+    "tags": ["commessa", "produzione", "pianificazione", "ordine"],
+    "contenuto_md": "## Apertura commessa di produzione\n\n### Scopo\nDefinire come convertire un ordine cliente confermato in una commessa di produzione operativa.\n\n### Responsabile\nUfficio produzione / Pianificazione\n\n### Prerequisiti\n- Ordine cliente confermato e presente a gestionale.\n- Disponibilità materie prime verificata (o ordine di acquisto aperto).\n\n### Procedura\n1. Dal gestionale, collegare l'ordine cliente alla commessa (menu: Produzione > Commesse > Nuova da ordine).\n2. Verificare la distinta base (BOM) e il ciclo di lavorazione associato all'articolo.\n3. Definire la data di consegna pianificata in base alla capacità produttiva.\n4. Assegnare la commessa alla macchina/reparto competente.\n5. Stampare l'ordine di lavoro (OdL) e allegare il disegno tecnico se presente.\n6. Comunicare al magazzino il fabbisogno materiali (picking list).\n7. Aggiornare il calendario produzione.\n\n### Collegamento\n- Al completamento: vedi **Chiusura commessa e collaudo finale**.\n- Per pianificazione settimanale: vedi **Pianificazione produzione settimanale**."
+  },
+  {
+    "titolo": "Pianificazione produzione settimanale",
+    "categoria": "Produzione",
+    "autore": "Roberto Fontana",
+    "tags": ["produzione", "pianificazione", "scheduling", "capacità"],
+    "contenuto_md": "## Pianificazione produzione settimanale\n\n### Scopo\nDefinire il processo di schedulazione settimanale delle commesse di produzione ottimizzando l'utilizzo delle risorse.\n\n### Responsabile\nResponsabile produzione\n\n### Quando\nOgni venerdì mattina per la settimana successiva.\n\n### Procedura\n1. Estrarre dal gestionale l'elenco commesse aperte con data di consegna entro le 2 settimane successive.\n2. Verificare disponibilità materie prime per ogni commessa.\n3. Verificare disponibilità macchine (tenere conto di manutenzioni programmate).\n4. Assegnare le commesse alle macchine per giorno/turno, rispettando le priorità cliente.\n5. Comunicare il piano ai capi reparto entro venerdì ore 14:00.\n6. Registrare il piano nel gestionale o sul tabellone produzione.\n7. Il lunedì mattina verificare allineamento piano vs. realtà e aggiornare se necessario.\n\n### Indicatori\n- OTD (On Time Delivery) target > 95%\n- Saturazione macchine target > 80%"
+  },
+  {
+    "titolo": "Manutenzione ordinaria macchina stampa",
+    "categoria": "Manutenzione",
+    "autore": "Sergio Martinelli",
+    "tags": ["manutenzione", "stampa", "macchina", "preventiva"],
+    "contenuto_md": "## Manutenzione ordinaria macchina stampa\n\n### Scopo\nDefinire le attività di manutenzione preventiva da eseguire sulle macchine da stampa.\n\n### Responsabile\nMeccanico manutentore\n\n### Frequenza\n- **Giornaliera:** pulizia testine, controllo livello inchiostri, lubrificazione guida nastro.\n- **Settimanale:** pulizia completa unità di stampa, controllo cinghie, verifica tensione.\n- **Mensile:** sostituzione filtri aria, controllo allineamento testine, pulizia encoder.\n\n### Procedura (intervento mensile)\n1. Fermare la macchina a fine turno e apporre il cartello 'IN MANUTENZIONE'.\n2. Attendere il raffreddamento delle testine (min 15 minuti).\n3. Eseguire la pulizia secondo scheda MM-01.\n4. Sostituire i componenti con scadenza mensile (vedi lista ricambi in scheda).\n5. Compilare il registro di manutenzione (RM-001).\n6. Eseguire stampa di prova e validare la qualità.\n7. Rimuovere il cartello e riattivare la macchina.\n\n### Collegamento\n- Per guasti improvvisi: vedi **Segnalazione e gestione guasto macchina**."
+  },
+  {
+    "titolo": "Segnalazione e gestione guasto macchina",
+    "categoria": "Manutenzione",
+    "autore": "Sergio Martinelli",
+    "tags": ["guasto", "manutenzione", "macchina", "fermo", "riparazione"],
+    "contenuto_md": "## Segnalazione e gestione guasto macchina\n\n### Scopo\nDefinire il processo di segnalazione, analisi e risoluzione dei guasti alle macchine di produzione.\n\n### Responsabile\nOperatore (segnalazione) + Manutentore (intervento)\n\n### Procedura\n1. L'operatore riscontra il guasto e ferma immediatamente la macchina.\n2. Apporre il cartello 'FUORI SERVIZIO' sulla macchina.\n3. Segnalare immediatamente al capo reparto e al manutentore (telefono interno o app manutenzione).\n4. Il manutentore effettua la diagnosi entro 30 minuti.\n5. Compilare il modulo G-001 (Rapporto di guasto) con: macchina, data/ora, sintomo, causa presunta.\n6. **Se riparabile internamente:** procedere con la riparazione, registrare i ricambi usati.\n7. **Se richiede intervento esterno:** contattare il service autorizzato (vedi rubrica fornitori).\n8. Dopo la riparazione: eseguire test funzionale e stampa di prova.\n9. Chiudere il rapporto di guasto con causa radice e tempo di fermo effettivo.\n10. Aggiornare il piano di manutenzione ordinaria se il guasto è ricorrente.\n\n### KPI\n- MTTR (Mean Time To Repair) target < 4h"
+  },
+  {
+    "titolo": "Onboarding nuovo cliente",
+    "categoria": "Commerciale",
+    "autore": "Francesca Neri",
+    "tags": ["cliente", "onboarding", "commerciale", "anagrafica"],
+    "contenuto_md": "## Onboarding nuovo cliente\n\n### Scopo\nDefinire il processo di acquisizione e configurazione di un nuovo cliente nel sistema.\n\n### Responsabile\nCommerciale + Amministrazione\n\n### Procedura\n1. **Qualificazione:** verificare la visura camerale e la solvibilità (Cerved o equivalente).\n2. **Accordo:** definire condizioni commerciali: listino, sconti, termini di pagamento, fido.\n3. **Anagrafica:** creare il cliente nel gestionale con tutti i dati (P.IVA, codice SDI, indirizzo, contatti).\n4. **Contratto:** far firmare le condizioni generali di vendita.\n5. **CRM:** creare la scheda cliente nel CRM con le note commerciali rilevanti.\n6. **Comunicazione interna:** avvisare produzione e magazzino delle specificità del cliente.\n7. **Prima spedizione:** gestire con attenzione extra e raccogliere feedback.\n\n### Documenti richiesti\n- Visura camerale (non oltre 6 mesi)\n- Codice SDI per fatturazione elettronica\n- Contratto firmato"
+  },
+  {
+    "titolo": "Gestione reclamo cliente",
+    "categoria": "Qualità",
+    "autore": "Laura Bianchi",
+    "tags": ["reclamo", "cliente", "qualità", "NC", "soddisfazione"],
+    "contenuto_md": "## Gestione reclamo cliente\n\n### Scopo\nDefinire il processo di ricezione, analisi e risoluzione dei reclami formali da parte dei clienti.\n\n### Responsabile\nQualità (coordinatore) + Commerciale (interfaccia cliente)\n\n### Procedura\n1. Il commerciale riceve il reclamo e ne registra i dettagli nel CRM.\n2. Aprire il ticket reclamo nel sistema qualità (modulo RC-01) entro 4h dalla ricezione.\n3. Inviare al cliente una prima risposta di presa in carico entro 24h.\n4. Il responsabile qualità analizza la causa del reclamo.\n5. Compilare il report 8D se il reclamo è grave o ricorrente.\n6. Definire le azioni correttive e preventive (CAPA).\n7. Comunicare al cliente l'esito dell'analisi e le azioni intraprese (max 10 giorni lavorativi).\n8. **Se previsto rimborso o reso:** coordinare con commerciale (vedi **Gestione reso merce da cliente**).\n9. Chiudere il ticket reclamo dopo conferma risoluzione dal cliente.\n10. Aggiornare il registro reclami mensile per il monitoraggio KPI.\n\n### KPI\n- Tempo medio di chiusura reclamo < 10 giorni lavorativi\n- % reclami ricorrenti < 10%"
+  },
+  {
+    "titolo": "Chiusura commessa e collaudo finale",
+    "categoria": "Produzione",
+    "autore": "Roberto Fontana",
+    "tags": ["commessa", "collaudo", "qualità", "chiusura", "produzione"],
+    "contenuto_md": "## Chiusura commessa e collaudo finale\n\n### Scopo\nDefinire le attività di verifica qualitativa e di chiusura amministrativa di una commessa prima della spedizione.\n\n### Responsabile\nCapo produzione + Addetto qualità\n\n### Procedura\n1. Il capo produzione segnala la fine della produzione nel gestionale.\n2. L'addetto qualità esegue il campionamento finale (modulo CC-01).\n3. Verificare: conformità dimensionale, qualità di stampa/lavorazione, etichettatura, imballo.\n4. **Se conforme:** apporre il cartello 'APPROVATO' e spostare in area spedizioni.\n5. **Se non conforme:** aprire NC interna, decidere se rilavorare o scartare.\n6. Il capo produzione chiude la commessa nel gestionale con quantità prodotte, scarti, ore effettive.\n7. Il sistema calcola il costo effettivo vs. preventivo.\n8. Inviare la merce a logistica (vedi **Emissione DDT per spedizioni clienti**)."
+  },
+  {
+    "titolo": "Pulizia e sanificazione reparto produzione",
+    "categoria": "Qualità",
+    "autore": "Laura Bianchi",
+    "tags": ["pulizia", "sanificazione", "qualità", "sicurezza", "5S"],
+    "contenuto_md": "## Pulizia e sanificazione reparto produzione\n\n### Scopo\nMantener il reparto produzione in condizioni di pulizia idonee alla qualità del prodotto.\n\n### Responsabile\nOperatori di reparto (rotazione)\n\n### Frequenza\n- **Fine turno (giornaliera):** pulizia postazione di lavoro e macchina.\n- **Venerdì (settimanale):** pulizia generale reparto, pavimenti, scaffali.\n- **Fine mese:** sanificazione profonda inclusi impianti di ventilazione.\n\n### Procedura (pulizia fine turno)\n1. Smaltire gli scarti di produzione negli appositi contenitori (differenziata).\n2. Pulire le superfici di lavoro con panno e prodotto apposito.\n3. Riordinare gli attrezzi nelle postazioni dedicate (5S).\n4. Segnalare eventuali perdite di lubrificante o liquidi al manutentore.\n5. Compilare il registro pulizia (modulo PU-01) con firma e orario."
+  },
+  {
+    "titolo": "Riordino materiali consumabili",
+    "categoria": "Acquisti",
+    "autore": "Marco Colombo",
+    "tags": ["acquisti", "consumabili", "riordino", "scorte"],
+    "contenuto_md": "## Riordino materiali consumabili\n\n### Scopo\nGarantire la disponibilità continua dei materiali consumabili evitando rotture di stock.\n\n### Responsabile\nResponsabile magazzino / Acquisti\n\n### Sistema di riordino\nSi utilizza il metodo del punto di riordino (ROP): quando la giacenza scende sotto il livello minimo nel gestionale, il sistema genera automaticamente una proposta d'ordine.\n\n### Procedura\n1. Il gestionale genera la proposta d'ordine (visibile in: Acquisti > Proposte d'ordine).\n2. L'addetto acquisti verifica la proposta e la quantità suggerita.\n3. Confrontare con le ultime 3 offerte ricevute (vedi **Richiesta preventivo a fornitore** se nessuna offerta valida).\n4. Confermare l'ordine al fornitore via email o portale.\n5. Registrare l'ordine nel gestionale e impostare la data di consegna prevista.\n6. Al ricevimento: seguire la procedura **Ricezione merci da fornitore**.\n\n### Materiali critici\n- Nastri stampa: 2 settimane di consumo\n- Inchiostri base: 10 giorni di consumo\n- DPI (guanti, occhiali): 30 giorni"
+  },
+  {
+    "titolo": "Archiviazione documentazione commessa",
+    "categoria": "Amministrazione",
+    "autore": "Chiara Romano",
+    "tags": ["archiviazione", "commessa", "documentazione", "amministrazione"],
+    "contenuto_md": "## Archiviazione documentazione commessa\n\n### Scopo\nDefinire le modalità di raccolta e conservazione della documentazione relativa alle commesse chiuse.\n\n### Responsabile\nAmministrazione / Segreteria\n\n### Documenti da archiviare per commessa\n- Ordine cliente originale (PDF firmato)\n- Offerta accettata\n- Ordini di lavoro (OdL)\n- Rapporti di collaudo (modulo CC-01)\n- DDT di spedizione\n- Fattura emessa\n- Eventuali NC aperte e chiuse\n\n### Procedura\n1. Dopo la chiusura della commessa, l'amministrazione riceve notifica automatica.\n2. Raccogliere tutti i documenti dalla cartella fisica e dal gestionale.\n3. Creare la cartella digitale: `\\\\server\\archivio\\commesse\\ANNO\\NUMERO_COMMESSA\\`\n4. Scansionare i documenti fisici non già digitali e salvarli nella cartella.\n5. La cartella fisica viene riposta nell'archivio cartaceo (scaffale per anno).\n6. I documenti si conservano per **10 anni** (obbligo fiscale)."
+  }
+]
