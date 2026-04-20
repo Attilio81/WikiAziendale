@@ -158,7 +158,7 @@ def _get_compiler_model_id(s) -> str:
         return s.OPENROUTER_MODEL_COMPILER
     if p == "azure":
         return s.AZURE_OPENAI_DEPLOYMENT_COMPILER
-    return "unknown"
+    raise ValueError(f"Unknown LLM_PROVIDER: {p!r}. Valid: lmstudio, openai, openrouter, azure")
 
 
 def make_compiler_agent(db: AsyncSession):
