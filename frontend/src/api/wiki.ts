@@ -1,10 +1,4 @@
-const BASE = `${import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api/v1'}`
-const API_KEY = import.meta.env.VITE_API_KEY ?? 'dev-change-me'
-
-const headers = {
-  'Content-Type': 'application/json',
-  'X-API-Key': API_KEY,
-}
+import { BASE_URL as BASE, defaultHeaders as headers, handleResponse } from './client'
 
 export interface WikiPageListItem {
   id: string
@@ -25,15 +19,6 @@ export interface WikiIndexRead {
   id: number
   tree_md: string | null
   last_rebuilt_at: string | null
-}
-
-async function handleResponse<T>(res: Response): Promise<T> {
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`HTTP ${res.status}: ${text}`)
-  }
-  if (res.status === 204) return undefined as T
-  return res.json()
 }
 
 export async function fetchWikiPages(): Promise<WikiPageListItem[]> {
