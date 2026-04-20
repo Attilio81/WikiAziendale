@@ -178,7 +178,7 @@ def make_compiler_agent(db: AsyncSession):
         model=get_llm_model("compiler"),
         tools=tools,
         instructions=system_prompt,
-        show_tool_calls=False,
         markdown=False,
+        debug_mode=False,
     )
     return agent, state
