@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.agents.compiler import make_compiler_agent, _get_compiler_model_id
+from app.agents.compiler import make_compiler_agent, get_compiler_model_id
 from app.config import get_settings
 from app.models.procedure_raw import ProcedureRaw
 from app.models.compilation_log import CompilationLog
@@ -56,7 +56,7 @@ async def run_compilation(
             affected_raw_ids=[str(pid) for pid in procedure_ids],
             affected_wiki_slugs=list(state["affected_slugs"]),
             duration_ms=duration_ms,
-            model_used=_get_compiler_model_id(settings),
+            model_used=get_compiler_model_id(settings),
             status="completed",
         )
         db.add(log)
@@ -82,7 +82,7 @@ async def run_compilation(
                 affected_raw_ids=[str(pid) for pid in procedure_ids],
                 affected_wiki_slugs=[],
                 duration_ms=duration_ms,
-                model_used=_get_compiler_model_id(settings),
+                model_used=get_compiler_model_id(settings),
                 status="failed",
                 error=err,
             )

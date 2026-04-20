@@ -148,7 +148,7 @@ def make_compiler_tools(db: AsyncSession, model_id: str) -> tuple[list[Callable]
     return tools, state
 
 
-def _get_compiler_model_id(s) -> str:
+def get_compiler_model_id(s) -> str:
     p = s.LLM_PROVIDER
     if p == "lmstudio":
         return s.LMSTUDIO_MODEL_COMPILER
@@ -168,7 +168,7 @@ def make_compiler_agent(db: AsyncSession):
     from app.config import get_settings
 
     settings = get_settings()
-    model_id = _get_compiler_model_id(settings)
+    model_id = get_compiler_model_id(settings)
     tools, state = make_compiler_tools(db, model_id)
 
     prompt_path = Path(__file__).parent / "prompts" / "compiler.md"
