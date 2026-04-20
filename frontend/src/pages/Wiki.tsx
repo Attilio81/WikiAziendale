@@ -24,7 +24,7 @@ export function Wiki() {
     enabled: selectedSlug !== null,
   })
 
-  const { data: index } = useQuery({
+  const { data: index, isError: indexError } = useQuery({
     queryKey: ['wiki-index'],
     queryFn: fetchWikiIndex,
     enabled: selectedSlug === null,
@@ -166,6 +166,12 @@ export function Wiki() {
         {pageLoading && (
           <p className="text-xs font-mono tracking-widest text-muted uppercase animate-pulse">
             Caricamento pagina...
+          </p>
+        )}
+
+        {!selectedSlug && indexError && (
+          <p className="text-xs font-mono text-accent py-4">
+            Errore di caricamento dell'indice wiki.
           </p>
         )}
 
