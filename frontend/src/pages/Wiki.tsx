@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import ReactMarkdown from 'react-markdown'
 import type { Components } from 'react-markdown'
@@ -92,8 +92,8 @@ export function Wiki() {
     },
   })
 
-  const knownSlugs = pages.map(p => p.slug)
-  const components = makeComponents(knownSlugs)
+  const knownSlugs = useMemo(() => pages.map(p => p.slug), [pages])
+  const components = useMemo(() => makeComponents(knownSlugs), [knownSlugs])
 
   return (
     <div className="flex animate-fade-in" style={{ minHeight: 'calc(100vh - 73px)' }}>
