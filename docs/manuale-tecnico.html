@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manuale Tecnico — Wiki Aziendale LLM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0e14;
+    --bg2: #111520;
+    --bg3: #181d2a;
+    --border: #1e2535;
+    --accent: #00e5a0;
+    --accent2: #3b82f6;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --text: #c9d1e0;
+    --text-dim: #5a6478;
+    --text-bright: #e8edf5;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .layout {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Sidebar */
+  nav {
+    width: 260px;
+    min-width: 260px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-brand {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-brand .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .nav-brand h2 {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-bright);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .nav-section {
+    padding: 16px 20px 4px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  nav a {
+    display: block;
+    padding: 7px 20px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    font-family: var(--mono);
+  }
+
+  nav a:hover {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(0,229,160,0.04);
+  }
+
+  .nav-footer {
+    margin-top: auto;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  /* Main */
+  main {
+    flex: 1;
+    padding: 48px 64px;
+    max-width: 900px;
+  }
+
+  /* Header */
+  .page-header {
+    margin-bottom: 56px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .header-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: var(--mono);
+    font-size: 32px;
+    color: var(--text-bright);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  .badge.green { border-color: rgba(0,229,160,0.3); color: var(--accent); background: rgba(0,229,160,0.06); }
+  .badge.blue { border-color: rgba(59,130,246,0.3); color: var(--accent2); background: rgba(59,130,246,0.06); }
+  .badge.amber { border-color: rgba(245,158,11,0.3); color: var(--amber); background: rgba(245,158,11,0.06); }
+
+  /* Sections */
+  section {
+    margin-bottom: 64px;
+    scroll-margin-top: 24px;
+  }
+
+  h2 {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--text-bright);
+    font-weight: 600;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h2 .section-num {
+    font-size: 11px;
+    color: var(--accent);
+    opacity: 0.7;
+  }
+
+  h3 {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 28px 0 12px;
+    letter-spacing: 0.05em;
+  }
+
+  p { margin-bottom: 12px; color: var(--text); }
+
+  /* Code blocks */
+  pre {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+  }
+
+  pre::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 8px;
+    right: 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    background: rgba(0,229,160,0.07);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  pre code .k { color: var(--accent2); }
+  pre code .s { color: #a3e635; }
+  pre code .c { color: var(--text-dim); font-style: italic; }
+  pre code .f { color: var(--amber); }
+  pre code .n { color: var(--accent); }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 12.5px;
+  }
+
+  th {
+    background: var(--bg2);
+    color: var(--accent);
+    text-align: left;
+    padding: 10px 16px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+  }
+
+  th:first-child { border-left: 1px solid var(--border); border-radius: 4px 0 0 0; }
+  th:last-child { border-right: 1px solid var(--border); border-radius: 0 4px 0 0; }
+
+  td {
+    padding: 9px 16px;
+    border-bottom: 1px solid rgba(30,37,53,0.8);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  td:first-child { border-left: 1px solid var(--border); }
+  td:last-child { border-right: 1px solid var(--border); }
+
+  tr:last-child td { border-bottom: 1px solid var(--border); }
+  tr:last-child td:first-child { border-radius: 0 0 0 4px; }
+  tr:last-child td:last-child { border-radius: 0 0 4px 0; }
+
+  tr:hover td { background: rgba(0,229,160,0.02); }
+
+  /* Flow diagram */
+  .flow {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    margin: 16px 0;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 10px 0;
+    position: relative;
+  }
+
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 36px;
+    width: 1px;
+    height: calc(100% - 10px);
+    background: var(--border);
+  }
+
+  .flow-dot {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .flow-content strong {
+    display: block;
+    color: var(--text-bright);
+    font-size: 13px;
+    margin-bottom: 2px;
+    font-family: var(--mono);
+  }
+
+  .flow-content span {
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+
+  /* Arch diagram */
+  .arch {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px;
+    margin: 16px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .arch-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-bright);
+    text-align: center;
+    min-width: 200px;
+  }
+
+  .arch-box.accent { border-color: rgba(0,229,160,0.4); color: var(--accent); }
+  .arch-box.blue { border-color: rgba(59,130,246,0.4); color: var(--accent2); }
+  .arch-box.amber { border-color: rgba(245,158,11,0.4); color: var(--amber); }
+
+  .arch-arrow {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--text-dim);
+    padding: 4px 0;
+    line-height: 1;
+  }
+
+  .arch-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  /* Callout */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: rgba(0,229,160,0.04);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 13.5px;
+  }
+
+  .callout.warn { border-left-color: var(--amber); background: rgba(245,158,11,0.04); }
+  .callout.err { border-left-color: var(--red); background: rgba(239,68,68,0.04); }
+
+  .callout strong {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .callout.warn strong { color: var(--amber); }
+  .callout strong { color: var(--accent); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    main { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav>
+  <div class="nav-brand">
+    <div class="tag">// doc tecnica</div>
+    <h2>Wiki Aziendale<br>LLM v0.2</h2>
+  </div>
+  <div class="nav-section">Architettura</div>
+  <a href="#overview">Overview</a>
+  <a href="#stack">Stack tecnologico</a>
+  <a href="#architettura">Architettura</a>
+  <div class="nav-section">Componenti</div>
+  <a href="#backend">Backend FastAPI</a>
+  <a href="#agente">Agente AI</a>
+  <a href="#database">Database</a>
+  <a href="#frontend">Frontend React</a>
+  <div class="nav-section">Operazioni</div>
+  <a href="#setup">Setup & Avvio</a>
+  <a href="#env">Variabili d'ambiente</a>
+  <a href="#api">API Reference</a>
+  <a href="#flusso">Flusso dati</a>
+  <a href="#limitazioni">Limitazioni note</a>
+  <div class="nav-footer">
+    Backend: localhost:8000<br>
+    Frontend: localhost:5175<br>
+    Docs: localhost:8000/docs
+  </div>
+</nav>
+
+<main>
+
+  <div class="page-header">
+    <div class="header-label">// manuale tecnico</div>
+    <h1>Wiki Aziendale<br>LLM System</h1>
+    <div class="header-meta">
+      <span class="badge green">FastAPI 0.115</span>
+      <span class="badge blue">React 18</span>
+      <span class="badge amber">Agno 1.4</span>
+      <span class="badge">SQLite</span>
+      <span class="badge">Python 3.11+</span>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <h2><span class="section-num">01 /</span> Overview</h2>
+    <p>Sistema che trasforma procedure aziendali grezze in una wiki strutturata e navigabile tramite un agente AI. Non è un sistema RAG: la conoscenza è organizzata in pagine collegate, compilate una volta e servite staticamente dal DB.</p>
+    <div class="callout">
+      <strong>Principio chiave</strong>
+      L'AI scrive la wiki una volta al caricamento della procedura. Le query successive leggono direttamente dal DB — nessuna chiamata LLM a runtime durante la consultazione.
+    </div>
+    <p>Tutto gira in locale. Non è richiesta connessione internet a regime (solo per scaricare i modelli la prima volta).</p>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <h2><span class="section-num">02 /</span> Stack tecnologico</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Layer</th><th>Tecnologia</th><th>Versione</th><th>Ruolo</th></tr></thead>
+        <tbody>
+          <tr><td>API</td><td>FastAPI + Uvicorn</td><td>0.115 / 0.32</td><td>REST API async</td></tr>
+          <tr><td>ORM</td><td>SQLAlchemy asyncio</td><td>2.0.36</td><td>Accesso DB non-blocking</td></tr>
+          <tr><td>Schema</td><td>Pydantic v2</td><td>2.10</td><td>Validazione I/O + settings</td></tr>
+          <tr><td>AI agent</td><td>Agno</td><td>1.4</td><td>Orchestrazione agente + tool use</td></tr>
+          <tr><td>DB</td><td>SQLite + aiosqlite</td><td>0.20</td><td>Persistenza locale</td></tr>
+          <tr><td>Frontend</td><td>React 18 + Vite</td><td>18.3 / 6.0</td><td>SPA</td></tr>
+          <tr><td>UI</td><td>Tailwind CSS</td><td>3.4</td><td>Stile utility-first</td></tr>
+          <tr><td>State</td><td>TanStack Query + Zustand</td><td>5.62 / 5.0</td><td>Server state + UI state</td></tr>
+          <tr><td>Migrazioni</td><td>Alembic</td><td>1.13</td><td>Schema versioning</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ARCHITETTURA -->
+  <section id="architettura">
+    <h2><span class="section-num">03 /</span> Architettura</h2>
+
+    <div class="arch">
+      <div class="arch-box accent">Browser (React SPA)</div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-box blue">Backend FastAPI — porta 8000</div>
+      <div class="arch-arrow" style="display:flex;gap:40px;font-size:14px">↙&nbsp;&nbsp;&nbsp;&nbsp;↘</div>
+      <div class="arch-row">
+        <div class="arch-box">SQLite<br><small style="font-size:10px;color:var(--text-dim)">llm_wiki.db</small></div>
+        <div class="arch-box amber">LM Studio / OpenAI<br><small style="font-size:10px;color:var(--text-dim)">porta 1234 (local)</small></div>
+      </div>
+    </div>
+
+    <p>Il backend è l'unico componente che parla con il DB e con l'AI. Il frontend comunica solo con il backend via REST. L'agente AI viene istanziato in un background task FastAPI e non blocca le richieste HTTP.</p>
+
+    <h3>Struttura directory</h3>
+    <pre data-label="TREE"><code>WikiAziendale/
+├── .env                    ← config unica (copiata in backend/)
+├── start.bat               ← avvio completo (setup + server)
+├── docker-compose.yml
+├── backend/
+│   ├── app/
+│   │   ├── main.py         ← entry point, lifespan, CORS
+│   │   ├── config.py       ← Settings (pydantic-settings)
+│   │   ├── api/
+│   │   │   ├── procedures.py  ← CRUD + trigger compilazione
+│   │   │   └── wiki.py        ← lettura wiki, rebuild, log
+│   │   ├── agents/
+│   │   │   ├── compiler.py    ← agente Agno + 6 tool
+│   │   │   └── prompts/compiler.md
+│   │   ├── services/
+│   │   │   └── compilation.py ← orchestrazione + error handling
+│   │   ├── models/         ← SQLAlchemy ORM (4 tabelle)
+│   │   ├── schemas/        ← Pydantic v2
+│   │   └── core/
+│   │       ├── db.py       ← engine async, get_db
+│   │       ├── llm.py      ← factory provider AI
+│   │       └── security.py ← X-API-Key middleware
+│   ├── alembic/
+│   └── tests/              ← 25 test pytest
+└── frontend/
+    └── src/
+        ├── api/            ← client tipizzato
+        ├── pages/          ← Procedures, Wiki
+        ├── components/     ← StatusBadge, ProcedureTable, Modal
+        └── store/          ← Zustand (modal state)</code></pre>
+  </section>
+
+  <!-- BACKEND -->
+  <section id="backend">
+    <h2><span class="section-num">04 /</span> Backend FastAPI</h2>
+
+    <h3>Endpoint principali</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Metodo</th><th>Path</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td><code>POST</code></td><td>/api/v1/procedures/</td><td>Crea procedura + avvia compilazione background</td></tr>
+          <tr><td><code>GET</code></td><td>/api/v1/procedures/</td><td>Lista con filtri (q, categoria, status, page)</td></tr>
+          <tr><td><code>GET</code></td><td>/api/v1/procedures/{id}</td><td>Singola procedura per UUID</td></tr>
+          <tr><td><code>PUT</code></td><td>/api/v1/procedures/{id}</td><td>Aggiorna + incrementa version + ricompila</td></tr>
+          <tr><td><code>DELETE</code></td><td>/api/v1/procedures/{id}</td><td>Elimina procedura (wiki non aggiornata)</td></tr>
+          <tr><td><code>GET</code></td><td>/api/v1/wiki/pages</td><td>Lista pagine wiki (slug, titolo)</td></tr>
+          <tr><td><code>GET</code></td><td>/api/v1/wiki/pages/{slug}</td><td>Contenuto pagina wiki in Markdown</td></tr>
+          <tr><td><code>GET</code></td><td>/api/v1/wiki/index</td><td>Indice wiki (struttura albero Markdown)</td></tr>
+          <tr><td><code>POST</code></td><td>/api/v1/wiki/rebuild</td><td>Ricompila tutte le procedure pending</td></tr>
+          <tr><td><code>GET</code></td><td>/api/v1/wiki/logs</td><td>Log compilazioni agente</td></tr>
+          <tr><td><code>GET</code></td><td>/health</td><td>Health check + provider AI attivo</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <strong>Autenticazione</strong>
+      Tutti gli endpoint richiedono l'header <code>X-API-Key</code> con il valore impostato in <code>API_KEY</code> nel <code>.env</code>. Default dev: <code>dev-change-me</code>.
+    </div>
+
+    <h3>Lifespan — creazione tabelle</h3>
+    <p>All'avvio, il backend esegue <code>Base.metadata.create_all</code> in modo asincrono. Se le tabelle non esistono vengono create automaticamente. Non è necessario eseguire Alembic manualmente in sviluppo.</p>
+  </section>
+
+  <!-- AGENTE -->
+  <section id="agente">
+    <h2><span class="section-num">05 /</span> Agente AI (compiler)</h2>
+
+    <p>L'agente è costruito con il framework <strong>Agno</strong> e riceve 6 tool Python che wrappano operazioni sul DB. Non ha accesso diretto a internet né al filesystem.</p>
+
+    <h3>Tool disponibili</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tool</th><th>Firma</th><th>Operazione DB</th></tr></thead>
+        <tbody>
+          <tr><td><code>get_raw_procedure</code></td><td>(id: str) → str</td><td>SELECT da procedure_raw</td></tr>
+          <tr><td><code>list_wiki_pages</code></td><td>() → list</td><td>SELECT slug, titolo da procedure_wiki</td></tr>
+          <tr><td><code>get_wiki_page</code></td><td>(slug: str) → str</td><td>SELECT contenuto da procedure_wiki</td></tr>
+          <tr><td><code>upsert_wiki_page</code></td><td>(slug, titolo, contenuto) → str</td><td>INSERT OR REPLACE procedure_wiki</td></tr>
+          <tr><td><code>delete_wiki_page</code></td><td>(slug: str) → str</td><td>DELETE da procedure_wiki</td></tr>
+          <tr><td><code>rebuild_wiki_index</code></td><td>() → str</td><td>UPDATE wiki_index</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Logica di compilazione</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot">1</div>
+        <div class="flow-content">
+          <strong>Lettura procedura</strong>
+          <span>get_raw_procedure(id) — legge testo grezzo dal DB</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">2</div>
+        <div class="flow-content">
+          <strong>Ricognizione wiki</strong>
+          <span>list_wiki_pages() — verifica pagine esistenti per decidere se creare o fondere</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">3</div>
+        <div class="flow-content">
+          <strong>Lettura pagine correlate (opzionale)</strong>
+          <span>get_wiki_page(slug) — legge contenuto se la pagina esiste già</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">4</div>
+        <div class="flow-content">
+          <strong>Scrittura wiki</strong>
+          <span>upsert_wiki_page() — crea o aggiorna con struttura: panoramica, procedura, documenti, vedi anche</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">5</div>
+        <div class="flow-content">
+          <strong>Rebuild indice</strong>
+          <span>rebuild_wiki_index() — ricostruisce la struttura ad albero della wiki</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Provider AI configurabili</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>LLM_PROVIDER</th><th>Provider</th><th>Variabili richieste</th><th>Uso consigliato</th></tr></thead>
+        <tbody>
+          <tr><td><code>lmstudio</code></td><td>LM Studio (locale)</td><td>LMSTUDIO_BASE_URL, LMSTUDIO_MODEL_*</td><td>Sviluppo</td></tr>
+          <tr><td><code>openai</code></td><td>OpenAI API</td><td>OPENAI_API_KEY</td><td>Demo / staging</td></tr>
+          <tr><td><code>openrouter</code></td><td>OpenRouter</td><td>OPENROUTER_API_KEY</td><td>Produzione cloud</td></tr>
+          <tr><td><code>azure</code></td><td>Azure OpenAI</td><td>AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY</td><td>Produzione EU</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- DATABASE -->
+  <section id="database">
+    <h2><span class="section-num">06 /</span> Database</h2>
+
+    <h3>Tabelle</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tabella</th><th>Colonne chiave</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td><code>procedure_raw</code></td><td>id (UUID), titolo, contenuto, categoria, compilation_status, version</td><td>Sorgente dati, mai modificata dall'AI</td></tr>
+          <tr><td><code>procedure_wiki</code></td><td>slug (PK), titolo, contenuto (Markdown), updated_at</td><td>Output dell'agente. Upsert per slug.</td></tr>
+          <tr><td><code>wiki_index</code></td><td>id, contenuto (Markdown), rebuilt_at</td><td>Riga singola, ricreata ad ogni rebuild</td></tr>
+          <tr><td><code>compilation_log</code></td><td>id, procedure_ids, status, error_message, tokens_used, duration_s</td><td>tokens_used sempre null (Agno non espone)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Il file DB si trova in <code>backend/llm_wiki.db</code> in sviluppo locale. In Docker è montato su <code>/data/llm_wiki.db</code>.</p>
+  </section>
+
+  <!-- FRONTEND -->
+  <section id="frontend">
+    <h2><span class="section-num">07 /</span> Frontend React</h2>
+
+    <h3>Routing</h3>
+    <p>Routing a stato (nessun react-router). <code>App.tsx</code> gestisce un <code>useState('procedures' | 'wiki')</code> e renderizza la pagina corrispondente. Le tab nella navbar cambiano lo stato.</p>
+
+    <h3>Client API</h3>
+    <p>Tutto in <code>src/api/</code>. Il base URL è <code>http://localhost:8000/api/v1</code>. L'header <code>X-API-Key</code> viene iniettato in ogni richiesta da <code>client.ts</code>.</p>
+
+    <h3>State management</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Libreria</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>TanStack Query</td><td>Cache e refetch automatico dei dati server (procedure, wiki pages)</td></tr>
+          <tr><td>Zustand</td><td>UI state locale (modal aperta/chiusa, procedura selezionata)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SETUP -->
+  <section id="setup">
+    <h2><span class="section-num">08 /</span> Setup & Avvio</h2>
+
+    <h3>Avvio completo (Windows)</h3>
+    <pre data-label="CMD"><code>start.bat</code></pre>
+    <p>Il bat gestisce in sequenza: sync <code>.env</code>, <code>pip install</code>, <code>npm install</code> (solo se mancante), avvio backend e frontend in finestre separate.</p>
+
+    <h3>Avvio manuale (sviluppo)</h3>
+    <pre data-label="BACKEND"><code><span class="c"># Installazione dipendenze</span>
+pip install -e <span class="s">"backend[dev]"</span>
+
+<span class="c"># Avvio backend</span>
+cd backend
+python -m uvicorn app.main:app --reload --port 8000</code></pre>
+
+    <pre data-label="FRONTEND"><code><span class="c"># Prima volta</span>
+cd frontend && npm install
+
+<span class="c"># Avvio</span>
+npm run dev -- --port 5175</code></pre>
+
+    <h3>Test</h3>
+    <pre data-label="TEST"><code>cd backend
+pytest tests/ -v</code></pre>
+
+    <h3>Docker</h3>
+    <pre data-label="DOCKER"><code>cp .env.example .env
+docker-compose up --build</code></pre>
+  </section>
+
+  <!-- ENV -->
+  <section id="env">
+    <h2><span class="section-num">09 /</span> Variabili d'ambiente</h2>
+
+    <p>Tutte in <code>.env</code> nella root. Copiato automaticamente in <code>backend/.env</code> da <code>start.bat</code>.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Variabile</th><th>Default</th><th>Descrizione</th></tr></thead>
+        <tbody>
+          <tr><td><code>DATABASE_URL</code></td><td>sqlite:///./llm_wiki.db</td><td>Path DB SQLite</td></tr>
+          <tr><td><code>API_KEY</code></td><td>dev-change-me</td><td>Header X-API-Key richiesto da tutti gli endpoint</td></tr>
+          <tr><td><code>API_CORS_ORIGINS</code></td><td>["http://localhost:5175"]</td><td>JSON array — deve matchare la porta del frontend</td></tr>
+          <tr><td><code>LLM_PROVIDER</code></td><td>lmstudio</td><td>lmstudio | openai | openrouter | azure</td></tr>
+          <tr><td><code>LMSTUDIO_BASE_URL</code></td><td>http://127.0.0.1:1234/v1</td><td>URL LM Studio (OpenAI-compatible)</td></tr>
+          <tr><td><code>LMSTUDIO_MODEL_COMPILER</code></td><td>qwen/qwen3-8b</td><td>Modello usato dall'agente compiler</td></tr>
+          <tr><td><code>COMPILER_TIMEOUT_SECONDS</code></td><td>180</td><td>Timeout compilazione (in config, non ancora applicato)</td></tr>
+          <tr><td><code>LOG_LEVEL</code></td><td>INFO</td><td>DEBUG | INFO | WARNING | ERROR</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <strong>CORS gotcha</strong>
+      <code>API_CORS_ORIGINS</code> deve essere un JSON array valido, es: <code>["http://localhost:5175"]</code>. Una stringa semplice causa un errore pydantic-settings al boot.
+    </div>
+  </section>
+
+  <!-- FLUSSO -->
+  <section id="flusso">
+    <h2><span class="section-num">10 /</span> Flusso dati completo</h2>
+    <pre data-label="FLOW"><code>POST /api/v1/procedures/
+  │
+  ├─ ProcedureRaw saved  (status = "pending")
+  │
+  └─ BackgroundTask: compile_in_background([proc.id], "create")
+        │
+        └─ run_compilation()
+              │
+              ├─ make_compiler_agent()       ← crea agente Agno con 6 tool
+              │
+              ├─ agent.arun(prompt)          ← LLM chiama i tool in loop
+              │     ├─ get_raw_procedure()
+              │     ├─ list_wiki_pages()
+              │     ├─ get_wiki_page()       (se pagina esiste)
+              │     ├─ upsert_wiki_page()
+              │     └─ rebuild_wiki_index()
+              │
+              ├─ procedure.compilation_status = "compiled"
+              │
+              └─ CompilationLog saved (status, duration, error_message)</code></pre>
+  </section>
+
+  <!-- LIMITAZIONI -->
+  <section id="limitazioni">
+    <h2><span class="section-num">11 /</span> Limitazioni note</h2>
+    <div class="callout err">
+      <strong>Issues aperti</strong>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Issue</th><th>Dettaglio</th><th>Workaround</th></tr></thead>
+        <tbody>
+          <tr><td>Timeout agente</td><td>COMPILER_TIMEOUT_SECONDS è in config ma non applicato all'agent</td><td>Uccidere manualmente se bloccato</td></tr>
+          <tr><td>tokens_used sempre null</td><td>Agno non espone i token usage nel run result</td><td>Monitor via LM Studio UI</td></tr>
+          <tr><td>Delete non aggiorna wiki</td><td>Eliminare una procedura non fa pulizia della pagina wiki né rebuild indice</td><td>Rebuild manuale via POST /wiki/rebuild</td></tr>
+          <tr><td>Single-node SQLite</td><td>Nessuna concorrenza write; un solo agente alla volta</td><td>Adeguato per uso aziendale small-scale</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+</div>
+</body>
+</html>

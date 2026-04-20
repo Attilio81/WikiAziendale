@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guida Utente — Wiki Aziendale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,700;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f7f4ef;
+    --warm: #ede9e2;
+    --paper: #faf8f4;
+    --ink: #1a1714;
+    --ink-mid: #4a4540;
+    --ink-light: #8c857c;
+    --accent: #c4622d;
+    --accent-light: #f0e8e1;
+    --green: #3d6b4f;
+    --green-light: #e5ede8;
+    --blue: #2c5f8a;
+    --blue-light: #e3edf5;
+    --amber: #a07020;
+    --amber-light: #f5edd8;
+    --border: #ddd8d0;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* Top bar */
+  .topbar {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .topbar-brand {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+  }
+
+  .topbar-badge {
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+
+  .topbar-nav {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .topbar-nav a {
+    color: rgba(247,244,239,0.6);
+    text-decoration: none;
+    font-size: 13.5px;
+    transition: color 0.15s;
+  }
+
+  .topbar-nav a:hover { color: var(--cream); }
+
+  /* Hero */
+  .hero {
+    background: var(--ink);
+    padding: 80px 48px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -80px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(196,98,45,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 20%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(61,107,79,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 760px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-label {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 300;
+    line-height: 1.12;
+    color: var(--cream);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: rgba(247,244,239,0.6);
+  }
+
+  .hero p {
+    font-size: 17px;
+    color: rgba(247,244,239,0.65);
+    max-width: 540px;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  .hero-url {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(247,244,239,0.07);
+    border: 1px solid rgba(247,244,239,0.15);
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--cream);
+    text-decoration: none;
+  }
+
+  .hero-url .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  /* Layout */
+  .page-body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 64px 48px 96px;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 72px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: var(--serif);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-light);
+    min-width: 28px;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 32px 0 12px;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    color: var(--ink-mid);
+    margin-bottom: 14px;
+    font-size: 15.5px;
+  }
+
+  /* Steps */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: var(--serif);
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    min-width: 48px;
+    padding-top: 2px;
+    opacity: 0.7;
+  }
+
+  .step-content h4 {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .step-content p {
+    font-size: 14.5px;
+    margin-bottom: 0;
+    color: var(--ink-mid);
+  }
+
+  /* Status badges */
+  .status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+  }
+
+  .status-item.pending {
+    background: var(--amber-light);
+    border-color: rgba(160,112,32,0.2);
+  }
+
+  .status-item.compiled {
+    background: var(--green-light);
+    border-color: rgba(61,107,79,0.2);
+  }
+
+  .status-item.error {
+    background: #fdf0ee;
+    border-color: rgba(196,98,45,0.2);
+  }
+
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status-item.pending .status-dot { background: var(--amber); }
+  .status-item.compiled .status-dot { background: var(--green); }
+  .status-item.error .status-dot { background: var(--accent); }
+
+  .status-label {
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 90px;
+  }
+
+  .status-item.pending .status-label { color: var(--amber); }
+  .status-item.compiled .status-label { color: var(--green); }
+  .status-item.error .status-label { color: var(--accent); }
+
+  .status-desc {
+    font-size: 14px;
+    color: var(--ink-mid);
+  }
+
+  /* Form preview */
+  .form-preview {
+    background: var(--warm);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 16px 0;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 5px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .required {
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  .field-input {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 14px;
+    font-size: 14px;
+    color: var(--ink-mid);
+    width: 100%;
+    font-family: var(--sans);
+  }
+
+  .field-input.textarea {
+    height: 80px;
+    resize: none;
+  }
+
+  /* Wiki structure */
+  .wiki-structure {
+    background: var(--blue-light);
+    border: 1px solid rgba(44,95,138,0.2);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin: 16px 0;
+  }
+
+  .wiki-section-row {
+    display: flex;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(44,95,138,0.12);
+    align-items: flex-start;
+  }
+
+  .wiki-section-row:last-child { border-bottom: none; }
+
+  .wiki-icon {
+    font-size: 18px;
+    min-width: 28px;
+    padding-top: 1px;
+  }
+
+  .wiki-section-name {
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--blue);
+    margin-bottom: 2px;
+  }
+
+  .wiki-section-desc {
+    font-size: 13.5px;
+    color: var(--ink-mid);
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+  }
+
+  .faq-item:first-child { border-top: 1px solid var(--border); }
+
+  .faq-q {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+
+  .faq-a {
+    font-size: 14.5px;
+    color: var(--ink-mid);
+    line-height: 1.6;
+  }
+
+  /* Callout */
+  .tip {
+    display: flex;
+    gap: 14px;
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14.5px;
+    color: var(--ink-mid);
+  }
+
+  .tip-icon { font-size: 18px; flex-shrink: 0; }
+
+  /* Footer */
+  footer {
+    background: var(--warm);
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    text-align: center;
+  }
+
+  footer p {
+    font-size: 13.5px;
+    color: var(--ink-light);
+    margin: 0;
+  }
+
+  footer strong { color: var(--ink-mid); }
+
+  @media (max-width: 640px) {
+    .topbar { padding: 0 20px; }
+    .hero { padding: 48px 24px; }
+    .page-body { padding: 40px 24px; }
+    .topbar-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">Wiki Aziendale</div>
+  <ul class="topbar-nav">
+    <li><a href="#caricare">Caricare</a></li>
+    <li><a href="#wiki">Leggere la Wiki</a></li>
+    <li><a href="#aggiornare">Aggiornare</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="topbar-badge">Guida utente</div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Guida per l'utente</div>
+    <h1>Le procedure aziendali,<br><em>finalmente leggibili.</em></h1>
+    <p>Carica le tue procedure nel formato che hai — anche testo grezzo — e l'intelligenza artificiale le trasforma in una wiki organizzata e navigabile.</p>
+    <a href="http://localhost:5175" class="hero-url">
+      <span class="dot"></span>
+      http://localhost:5175
+    </a>
+  </div>
+</div>
+
+<div class="page-body">
+
+  <!-- COME FUNZIONA -->
+  <div class="section" id="come-funziona">
+    <div class="section-header">
+      <span class="section-num">01.</span>
+      <h2>Come funziona</h2>
+    </div>
+    <p>Il sistema lavora in tre momenti: tu carichi una procedura, l'AI la trasforma in una pagina wiki strutturata, e chiunque in azienda può leggerla con chiarezza.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Carichi la procedura grezza</h4>
+          <p>Inserisci il testo così com'è: bozza, appunti, documento Word copiato. Non serve formattare nulla.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>L'AI la struttura automaticamente</h4>
+          <p>In pochi secondi (o minuti per procedure lunghe), il sistema crea una pagina wiki con panoramica, passi, responsabili e collegamenti ad argomenti correlati.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>La wiki è pronta per tutti</h4>
+          <p>Qualsiasi dipendente può aprire la pagina, leggere la procedura in modo chiaro e trovare facilmente le pagine collegate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARICARE -->
+  <div class="section" id="caricare">
+    <div class="section-header">
+      <span class="section-num">02.</span>
+      <h2>Caricare una procedura</h2>
+    </div>
+
+    <p>Vai nella sezione <strong>Procedure</strong> (tab in alto) e clicca <strong>"+ Nuova procedura"</strong>. Si apre un modulo con questi campi:</p>
+
+    <div class="form-preview">
+      <div class="field">
+        <div class="field-label">Titolo <span class="required">*</span></div>
+        <div class="field-input">es. Ricezione merci da fornitore</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Categoria</div>
+        <div class="field-input">es. Magazzino, Qualità, Amministrazione</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Autore</div>
+        <div class="field-input">Chi ha scritto la procedura</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Contenuto <span class="required">*</span></div>
+        <div class="field-input textarea">Il testo completo della procedura, anche se scritto in modo informale...</div>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <div class="field-label">Tag</div>
+        <div class="field-input">parole-chiave, separate, da, virgola</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">💡</div>
+      <div>Solo <strong>Titolo</strong> e <strong>Contenuto</strong> sono obbligatori. L'AI sa leggere testi informali, appunti e documenti copiati — non serve formattare in Markdown (anche se è accettato).</div>
+    </div>
+
+    <p>Clicca <strong>Salva</strong>. La procedura viene registrata e la compilazione parte in automatico.</p>
+  </div>
+
+  <!-- STATI -->
+  <div class="section" id="stati">
+    <div class="section-header">
+      <span class="section-num">03.</span>
+      <h2>Stati della compilazione</h2>
+    </div>
+    <p>Nella lista procedure ogni riga mostra lo stato di compilazione:</p>
+
+    <div class="status-list">
+      <div class="status-item pending">
+        <div class="status-dot"></div>
+        <div class="status-label">In attesa</div>
+        <div class="status-desc">La compilazione è in coda o in corso. Attendi qualche secondo o minuto.</div>
+      </div>
+      <div class="status-item compiled">
+        <div class="status-dot"></div>
+        <div class="status-label">Compilata</div>
+        <div class="status-desc">La pagina wiki è pronta. Aprila dalla sezione Wiki.</div>
+      </div>
+      <div class="status-item error">
+        <div class="status-dot"></div>
+        <div class="status-label">Errore</div>
+        <div class="status-desc">La compilazione non è riuscita. Verifica che il backend e LM Studio siano attivi.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WIKI -->
+  <div class="section" id="wiki">
+    <div class="section-header">
+      <span class="section-num">04.</span>
+      <h2>Leggere la wiki</h2>
+    </div>
+
+    <p>Clicca su <strong>Wiki</strong> nella barra in alto. A sinistra trovi l'elenco di tutte le pagine. Usa il campo di ricerca per filtrarle per nome, poi clicca su una pagina per aprirla.</p>
+
+    <p>Ogni pagina wiki è strutturata così:</p>
+
+    <div class="wiki-structure">
+      <div class="wiki-section-row">
+        <div class="wiki-icon">📋</div>
+        <div>
+          <div class="wiki-section-name">Panoramica</div>
+          <div class="wiki-section-desc">Descrizione sintetica dell'argomento in 2–3 frasi. Spiega cos'è e a cosa serve.</div>
+        </div>
+      </div>
+      <div class="wiki-section-row">
+        <div class="wiki-icon">🔢</div>
+        <div>
+          <div class="wiki-section-name">Procedura</div>
+          <div class="wiki-section-desc">Passi numerati con responsabile e azioni da svolgere, nell'ordine corretto.</div>
+        </div>
+      </div>
+      <div class="wiki-section-row">
+        <div class="wiki-icon">📄</div>
+        <div>
+          <div class="wiki-section-name">Documenti e moduli</div>
+          <div class="wiki-section-desc">Moduli, DDT, codici di riferimento e qualsiasi documento citato nella procedura.</div>
+        </div>
+      </div>
+      <div class="wiki-section-row">
+        <div class="wiki-icon">🔗</div>
+        <div>
+          <div class="wiki-section-name">Vedi anche</div>
+          <div class="wiki-section-desc">Link cliccabili ad altre pagine correlate nella wiki. Utile per navigare tra argomenti connessi.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGGIORNARE -->
+  <div class="section" id="aggiornare">
+    <div class="section-header">
+      <span class="section-num">05.</span>
+      <h2>Aggiornare una procedura</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Vai in "Procedure"</h4>
+          <p>Trova la procedura da aggiornare nell'elenco.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Clicca l'icona di modifica</h4>
+          <p>Si apre il modulo con i dati attuali già compilati.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Modifica e salva</h4>
+          <p>Il sistema aggiorna automaticamente la pagina wiki corrispondente. Non devi fare nient'altro.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">ℹ️</div>
+      <div>Puoi <strong>eliminare</strong> una procedura con l'icona del cestino. Nota: la pagina wiki rimane visibile anche dopo l'eliminazione della procedura grezza. Contatta l'amministratore per rimuoverla dalla wiki.</div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section" id="faq">
+    <div class="section-header">
+      <span class="section-num">06.</span>
+      <h2>Domande frequenti</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">La procedura è salvata ma la wiki non si aggiorna. Cosa faccio?</div>
+        <div class="faq-a">Attendi qualche minuto — la compilazione avviene in background. Se lo stato rimane "In attesa" per più di 5 minuti, contatta il team IT: probabilmente il servizio AI (LM Studio) non è raggiungibile.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">L'AI ha fuso la mia procedura con un'altra. È normale?</div>
+        <div class="faq-a">Sì, è il comportamento previsto. Se due procedure trattano lo stesso argomento, l'AI le unisce in un'unica pagina wiki più completa e coerente, evitando duplicati.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Posso scrivere la procedura in Markdown?</div>
+        <div class="faq-a">Sì. Il campo "Contenuto" accetta Markdown. Ma anche testo normale funziona perfettamente — l'AI gestisce entrambi senza problemi.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Chi può accedere al sistema?</div>
+        <div class="faq-a">Chiunque abbia l'URL della applicazione. L'accesso è controllato da una chiave API configurata dall'amministratore di sistema.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Posso cercare dentro il contenuto delle pagine wiki?</div>
+        <div class="faq-a">Al momento la ricerca filtra per nome pagina. Per trovare contenuto specifico, naviga tra le pagine collegate tramite i link "Vedi anche".</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Le mie procedure vengono inviate su internet?</div>
+        <div class="faq-a">No. Il sistema gira interamente in locale sulla rete aziendale. L'AI è installata su un server interno e non ha accesso a internet.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Per problemi tecnici contatta il <strong>team IT</strong> o l'amministratore del sistema.<br>
+  Backend: <strong>http://localhost:8000</strong> — Frontend: <strong>http://localhost:5175</strong></p>
+</footer>
+
+</body>
+</html>

@@ -1,40 +1,90 @@
 # Wiki Aziendale LLM
 
-Sistema di gestione e interrogazione di procedure operative aziendali basato su LLM.
+> Trasforma procedure aziendali grezze in una wiki strutturata e navigabile, usando un agente AI locale.
 
-## Requisiti
+![Python](https://img.shields.io/badge/Python-3.11+-3776ab?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=black)
+![SQLite](https://img.shields.io/badge/SQLite-aiosqlite-003b57?logo=sqlite&logoColor=white)
+![Agno](https://img.shields.io/badge/AI-Agno_1.4-6366f1)
+![License](https://img.shields.io/badge/License-MIT-22c55e)
 
-- Docker + Docker Compose
-- Python 3.11+ (sviluppo backend locale)
-- Node.js 20+ (sviluppo frontend locale)
+---
 
-## Avvio rapido (Docker)
+## Cos'è
 
-```bash
-cp .env.example .env
-docker-compose up --build
+Un sistema che risolve un problema reale: le procedure aziendali esistono come documenti Word, PDF e appunti sparsi, scritti in momenti diversi da persone diverse. Trovarle e tenerle aggiornate è faticoso.
+
+**Wiki Aziendale LLM** fa questo:
+
+```
+Procedura grezza (testo qualsiasi)
+        ↓
+  Agente AI (Agno + LLM locale)
+        ↓
+  Pagina wiki strutturata
+  con passi, responsabili e link
 ```
 
-- Backend API: http://localhost:8000
-- Docs API interattive: http://localhost:8000/docs
-- Frontend: http://localhost:5173
+Non è un sistema RAG. La conoscenza viene compilata una volta e servita dal database — nessuna chiamata LLM durante la consultazione.
 
-## Sviluppo locale
+---
+
+## Funzionalità
+
+- **CRUD procedure** — carica, modifica ed elimina procedure nel formato che hai
+- **Compilazione automatica** — l'agente AI crea o aggiorna la pagina wiki appena salvi
+- **Fusione intelligente** — se due procedure trattano lo stesso argomento, l'AI le unisce
+- **Wiki navigabile** — sidebar con ricerca, pagine in Markdown renderizzato
+- **Indice automatico** — struttura ad albero ricostruita ad ogni modifica
+- **Multi-provider AI** — LM Studio locale, OpenAI, OpenRouter, Azure OpenAI
+- **Tutto in locale** — nessuna dipendenza cloud obbligatoria
+
+---
+
+## Stack
+
+| Layer | Tecnologia |
+|---|---|
+| Backend | FastAPI 0.115 + Uvicorn, Python 3.11+ |
+| AI agent | [Agno](https://agno.ai) 1.4 |
+| Database | SQLite + SQLAlchemy asyncio + aiosqlite |
+| Schema / Config | Pydantic v2 + pydantic-settings |
+| Migrazioni | Alembic |
+| Frontend | React 18 + Vite + TypeScript |
+| UI | Tailwind CSS 3 |
+| State | TanStack Query + Zustand |
+
+---
+
+## Avvio rapido (Windows)
+
+```bat
+start.bat
+```
+
+Il bat gestisce tutto: installa le dipendenze Python e Node (solo se mancanti), sincronizza il `.env` e avvia i due server in finestre separate.
+
+- **Frontend** → http://localhost:5175
+- **Backend API** → http://localhost:8000
+- **Docs API interattive** → http://localhost:8000/docs
+
+---
+
+## Setup manuale
+
+### Prerequisiti
+
+- Python 3.11+
+- Node.js 20+
+- [LM Studio](https://lmstudio.ai) con un modello caricato (o credenziali OpenAI/OpenRouter)
 
 ### Backend
 
 ```bash
+pip install -e "backend[dev]"
 cd backend
-python -m venv .venv
-
-# Mac/Linux
-source .venv/bin/activate
-# Windows
-.venv\Scripts\activate
-
-pip install -e ".[dev]"
-cp ../.env.example .env
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload --port 8000
 ```
 
 ### Frontend
@@ -42,70 +92,167 @@ uvicorn app.main:app --reload
 ```bash
 cd frontend
 npm install
-npm run dev
+npm run dev -- --port 5175
 ```
 
-### Test backend
+### Docker
+
+```bash
+cp .env.example .env
+docker-compose up --build
+```
+
+---
+
+## Configurazione
+
+Copia `.env.example` → `.env` e imposta il provider AI:
+
+```env
+# Provider: lmstudio | openai | openrouter | azure
+LLM_PROVIDER=lmstudio
+
+# LM Studio (dev locale)
+LMSTUDIO_BASE_URL=http://127.0.0.1:1234/v1
+LMSTUDIO_MODEL_COMPILER=qwen/qwen3-8b
+
+# API
+API_KEY=dev-change-me
+API_CORS_ORIGINS=["http://localhost:5175"]
+```
+
+| Provider | Variabili richieste | Uso consigliato |
+|---|---|---|
+| `lmstudio` | `LMSTUDIO_BASE_URL`, `LMSTUDIO_MODEL_*` | Sviluppo locale |
+| `openai` | `OPENAI_API_KEY` | Demo / staging |
+| `openrouter` | `OPENROUTER_API_KEY` | Produzione cloud |
+| `azure` | `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY` | Produzione EU |
+
+> **Nota CORS:** `API_CORS_ORIGINS` richiede un JSON array valido — non una stringa semplice.
+
+---
+
+## Architettura
+
+```
+Browser (React SPA : 5175)
+         │  REST + X-API-Key
+         ▼
+Backend FastAPI (: 8000)
+         │                    │
+         ▼                    ▼
+   SQLite DB           Agente Agno
+   (llm_wiki.db)       (background task)
+                              │
+                              ▼
+                     LM Studio / OpenAI
+                     (porta 1234 / cloud)
+```
+
+### Flusso compilazione
+
+```
+POST /procedures/
+  └─ Salva procedura (status = pending)
+  └─ BackgroundTask → compile_in_background()
+        └─ Agente AI con 6 tool:
+             ├─ get_raw_procedure()
+             ├─ list_wiki_pages()
+             ├─ get_wiki_page()
+             ├─ upsert_wiki_page()    ← scrive la wiki
+             ├─ delete_wiki_page()
+             └─ rebuild_wiki_index()
+        └─ procedure.status = "compiled"
+        └─ CompilationLog saved
+```
+
+---
+
+## Database
+
+| Tabella | Contenuto |
+|---|---|
+| `procedure_raw` | Procedure grezze caricate dall'utente |
+| `procedure_wiki` | Pagine wiki compilate dall'AI (una per argomento) |
+| `wiki_index` | Indice strutturato della wiki (Markdown) |
+| `compilation_log` | Log di ogni esecuzione dell'agente |
+
+Le tabelle vengono create automaticamente all'avvio. Per ambienti multi-deploy usare Alembic:
 
 ```bash
 cd backend
-pytest tests/ -v
-```
-
-### Migrations (Alembic)
-
-```bash
-cd backend
-# Genera nuova migration dopo modifica modelli
-alembic revision --autogenerate -m "descrizione"
-# Applica migrations
 alembic upgrade head
 ```
 
-## Configurazione LLM Provider
+---
 
-Impostare `LLM_PROVIDER` nel file `.env`:
+## Test
 
-| Provider | Caso d'uso | Variabili richieste |
-|---|---|---|
-| `lmstudio` | Dev locale (LM Studio) | `LMSTUDIO_BASE_URL`, `LMSTUDIO_MODEL_*` |
-| `openai` | Staging / demo | `OPENAI_API_KEY` |
-| `openrouter` | Produzione cloud | `OPENROUTER_API_KEY` |
-| `azure` | Produzione EU data residency | `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY` |
+```bash
+cd backend
+pytest tests/ -v   # 25 test
+```
 
-**Setup LM Studio (dev):**
-1. Avviare LM Studio e caricare il modello (consigliato: `qwen3-8b` su hardware con 8GB+ RAM)
-2. Avviare il server locale (porta 1234 di default)
-3. Nel `.env`: `LMSTUDIO_BASE_URL=http://<ip-lmstudio>:1234/v1`
+---
 
 ## Struttura progetto
 
 ```
-llm-wiki/
-├── backend/           # FastAPI + SQLAlchemy + Agno agents
-│   ├── app/
-│   │   ├── api/       # Endpoints REST
-│   │   ├── core/      # DB, security, LLM factory
-│   │   ├── models/    # SQLAlchemy models (4 tabelle)
-│   │   ├── schemas/   # Pydantic v2 schemas
-│   │   ├── agents/    # Compiler e Query agent (Phase 2)
-│   │   └── services/  # Orchestrazione async (Phase 2)
-│   ├── alembic/       # Migrations
-│   └── tests/         # 25 test pytest
-├── frontend/          # React 18 + Vite + TypeScript
-│   └── src/
-│       ├── api/       # Client API tipizzato
-│       ├── components/ # StatusBadge, ProcedureTable, ProcedureModal
-│       ├── pages/     # Procedures (Phase 1), Wiki, Chat (Phase 2+)
-│       └── store/     # Zustand modal store
-├── fixtures/          # 18 procedure campione per test
+WikiAziendale/
+├── .env                    ← config unica (copiata in backend/)
+├── start.bat               ← avvio completo Windows
 ├── docker-compose.yml
-└── .env.example
+├── backend/
+│   ├── app/
+│   │   ├── api/            ← procedures.py, wiki.py
+│   │   ├── agents/         ← compiler.py + prompts/
+│   │   ├── services/       ← compilation.py
+│   │   ├── models/         ← SQLAlchemy ORM
+│   │   ├── schemas/        ← Pydantic v2
+│   │   └── core/           ← db, llm factory, security
+│   ├── alembic/
+│   └── tests/
+├── frontend/
+│   └── src/
+│       ├── api/
+│       ├── pages/          ← Procedures, Wiki
+│       └── components/
+├── docs/
+│   ├── manuale-tecnico.html
+│   └── manuale-utente.html
+└── fixtures/               ← 18 procedure campione
 ```
 
-## Fasi di sviluppo
+---
 
-- **Phase 1** (questo branch): CRUD procedure raw, frontend gestione
-- **Phase 2**: Compiler Agent LLM, wiki pages auto-generate
-- **Phase 3**: Query Agent, wiki browser, chat UI
-- **Phase 4**: Osservabilità, metriche, documentazione deploy
+## Documentazione
+
+| Documento | Audience |
+|---|---|
+| [Manuale Tecnico](docs/manuale-tecnico.html) | Sviluppatori e sysadmin |
+| [Manuale Utente](docs/manuale-utente.html) | Utenti finali |
+| [Come Funziona](COME-FUNZIONA.md) | Overview non tecnico |
+
+---
+
+## Roadmap
+
+- [x] Phase 1 — CRUD procedure + frontend gestione
+- [x] Phase 2 — Compiler Agent, wiki auto-generate
+- [ ] Phase 3 — Query Agent, chat UI
+- [ ] Phase 4 — Osservabilità, metriche, deploy guide
+
+---
+
+## Limitazioni note
+
+- `COMPILER_TIMEOUT_SECONDS` configurato ma non ancora applicato all'agente
+- `tokens_used` sempre null nel log (Agno non espone usage)
+- Eliminare una procedura non aggiorna la wiki (richiede rebuild manuale)
+- SQLite: nessuna concorrenza in scrittura (adeguato per uso aziendale small-scale)
+
+---
+
+## Licenza
+
+MIT
