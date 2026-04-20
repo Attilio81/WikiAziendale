@@ -1,3 +1,4 @@
+import logging
 import time
 import uuid
 from datetime import datetime, timezone
@@ -8,6 +9,8 @@ from app.agents.compiler import make_compiler_agent, _get_compiler_model_id
 from app.config import get_settings
 from app.models.procedure_raw import ProcedureRaw
 from app.models.compilation_log import CompilationLog
+
+logger = logging.getLogger(__name__)
 
 
 async def run_compilation(
@@ -39,6 +42,7 @@ async def run_compilation(
 
     try:
         await agent.arun(msg)
+        duration_ms = int((time.monotonic() - t0) * 1000)
 
         for pid in procedure_ids:
             proc = await db.get(ProcedureRaw, pid)
@@ -46,7 +50,6 @@ async def run_compilation(
                 proc.compilation_status = "compiled"
                 proc.compilation_error = None
 
-        duration_ms = int((time.monotonic() - t0) * 1000)
         log = CompilationLog(
             triggered_at=triggered_at,
             trigger_type=trigger_type,
@@ -62,32 +65,45 @@ async def run_compilation(
 
     except Exception as exc:
         await db.rollback()
+        db.expire_all()
         err = str(exc)[:2000]
         duration_ms = int((time.monotonic() - t0) * 1000)
 
-        for pid in procedure_ids:
-            proc = await db.get(ProcedureRaw, pid)
-            if proc:
-                proc.compilation_status = "failed"
-                proc.compilation_error = err
+        try:
+            for pid in procedure_ids:
+                proc = await db.get(ProcedureRaw, pid)
+                if proc:
+                    proc.compilation_status = "failed"
+                    proc.compilation_error = err
 
-        log = CompilationLog(
-            triggered_at=triggered_at,
-            trigger_type=trigger_type,
-            affected_raw_ids=[str(pid) for pid in procedure_ids],
-            affected_wiki_slugs=[],
-            duration_ms=duration_ms,
-            model_used=_get_compiler_model_id(settings),
-            status="failed",
-            error=err,
-        )
-        db.add(log)
-        await db.commit()
-        return log
+            log = CompilationLog(
+                triggered_at=triggered_at,
+                trigger_type=trigger_type,
+                affected_raw_ids=[str(pid) for pid in procedure_ids],
+                affected_wiki_slugs=[],
+                duration_ms=duration_ms,
+                model_used=_get_compiler_model_id(settings),
+                status="failed",
+                error=err,
+            )
+            db.add(log)
+            await db.commit()
+            return log
+        except Exception:
+            logger.exception(
+                "Failed to persist compilation failure for ids=%s", procedure_ids
+            )
+            raise
 
 
 async def compile_in_background(procedure_ids: list[uuid.UUID], trigger_type: str) -> None:
     """Entry point for FastAPI BackgroundTasks. Creates its own DB session."""
     from app.core.db import get_session_factory
-    async with get_session_factory()() as db:
-        await run_compilation(procedure_ids, trigger_type, db)
+    try:
+        async with get_session_factory()() as db:
+            await run_compilation(procedure_ids, trigger_type, db)
+    except Exception:
+        logger.exception(
+            "compile_in_background unhandled failure: trigger=%s ids=%s",
+            trigger_type, procedure_ids,
+        )
