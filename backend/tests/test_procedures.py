@@ -127,3 +127,37 @@ async def test_wrong_api_key_returns_401(client):
     ) as ac:
         resp = await ac.get("/api/v1/procedures/")
     assert resp.status_code == 401
+
+
+async def test_create_procedure_triggers_compilation(client):
+    """POST /procedures returns 201 — background task is registered but not awaited in test."""
+    payload = {
+        "titolo": "Nuova Procedura",
+        "categoria": "Test",
+        "contenuto_md": "## Test\n\nContenuto.",
+        "autore": "Test",
+        "tags": [],
+    }
+    r = await client.post("/api/v1/procedures/", json=payload)
+    assert r.status_code == 201
+    # compilation_status starts as "pending"; background task runs after response
+    assert r.json()["compilation_status"] == "pending"
+
+
+async def test_update_procedure_resets_compilation_status(client):
+    """PUT /procedures/{id} resets compilation_status to pending."""
+    # Create
+    payload = {
+        "titolo": "Procedura Da Aggiornare",
+        "categoria": "Test",
+        "contenuto_md": "## Originale",
+        "autore": None,
+        "tags": [],
+    }
+    r = await client.post("/api/v1/procedures/", json=payload)
+    proc_id = r.json()["id"]
+
+    # Update
+    r = await client.put(f"/api/v1/procedures/{proc_id}", json={"titolo": "Aggiornata"})
+    assert r.status_code == 200
+    assert r.json()["compilation_status"] == "pending"

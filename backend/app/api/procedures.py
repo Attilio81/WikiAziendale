@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime, timezone
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
@@ -13,6 +13,7 @@ from app.schemas.procedure import (
     ProcedureRead,
     ProcedureListResponse,
 )
+from app.services.compilation import compile_in_background
 
 router = APIRouter()
 
@@ -20,6 +21,7 @@ router = APIRouter()
 @router.post("/", response_model=ProcedureRead, status_code=status.HTTP_201_CREATED)
 async def create_procedure(
     body: ProcedureCreate,
+    background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
     _: None = Depends(verify_api_key),
 ):
@@ -27,6 +29,7 @@ async def create_procedure(
     db.add(proc)
     await db.commit()
     await db.refresh(proc)
+    background_tasks.add_task(compile_in_background, [proc.id], "create")
     return proc
 
 
@@ -50,7 +53,6 @@ async def list_procedures(
     stmt = stmt.order_by(ProcedureRaw.updated_at.desc())
 
     total = await db.scalar(select(func.count()).select_from(stmt.subquery()))
-
     stmt = stmt.offset((page - 1) * page_size).limit(page_size)
     result = await db.execute(stmt)
     items = list(result.scalars().all())
@@ -74,6 +76,7 @@ async def get_procedure(
 async def update_procedure(
     id: uuid.UUID,
     body: ProcedureUpdate,
+    background_tasks: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
     _: None = Depends(verify_api_key),
 ):
@@ -89,6 +92,7 @@ async def update_procedure(
 
     await db.commit()
     await db.refresh(proc)
+    background_tasks.add_task(compile_in_background, [proc.id], "update")
     return proc
 
 
