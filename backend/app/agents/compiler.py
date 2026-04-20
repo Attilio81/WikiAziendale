@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Callable
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -145,3 +146,39 @@ def make_compiler_tools(db: AsyncSession, model_id: str) -> tuple[list[Callable]
         rebuild_wiki_index,  # tools[5]
     ]
     return tools, state
+
+
+def _get_compiler_model_id(s) -> str:
+    p = s.LLM_PROVIDER
+    if p == "lmstudio":
+        return s.LMSTUDIO_MODEL_COMPILER
+    if p == "openai":
+        return s.OPENAI_MODEL_COMPILER
+    if p == "openrouter":
+        return s.OPENROUTER_MODEL_COMPILER
+    if p == "azure":
+        return s.AZURE_OPENAI_DEPLOYMENT_COMPILER
+    return "unknown"
+
+
+def make_compiler_agent(db: AsyncSession):
+    """Return (agent, state). Agent has 6 DB-aware tools and reads system prompt from disk."""
+    from agno.agent import Agent
+    from app.core.llm import get_llm_model
+    from app.config import get_settings
+
+    settings = get_settings()
+    model_id = _get_compiler_model_id(settings)
+    tools, state = make_compiler_tools(db, model_id)
+
+    prompt_path = Path(__file__).parent / "prompts" / "compiler.md"
+    system_prompt = prompt_path.read_text(encoding="utf-8")
+
+    agent = Agent(
+        model=get_llm_model("compiler"),
+        tools=tools,
+        instructions=system_prompt,
+        show_tool_calls=False,
+        markdown=False,
+    )
+    return agent, state
