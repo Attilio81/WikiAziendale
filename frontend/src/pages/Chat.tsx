@@ -2,6 +2,12 @@ import { useState, useRef, useEffect } from 'react'
 import { sendMessage } from '../api/chat'
 
 const SESSION_KEY = 'wiki_chat_session_id'
+const MESSAGES_KEY = 'wiki_chat_messages'
+
+const INITIAL_MESSAGE = {
+  role: 'assistant' as const,
+  content: 'Ciao! Posso rispondere a domande sulle procedure aziendali. Cosa vuoi sapere?',
+}
 
 type Message = {
   role: 'user' | 'assistant'
@@ -14,7 +20,7 @@ interface ChatProps {
 }
 
 export function Chat({ onNavigateToWiki }: ChatProps) {
-  const [sessionId] = useState<string>(() => {
+  const [sessionId, setSessionId] = useState<string>(() => {
     const stored = localStorage.getItem(SESSION_KEY)
     if (stored) return stored
     const id = crypto.randomUUID()
@@ -22,19 +28,33 @@ export function Chat({ onNavigateToWiki }: ChatProps) {
     return id
   })
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content: 'Ciao! Posso rispondere a domande sulle procedure aziendali. Cosa vuoi sapere?',
-    },
-  ])
+  const [messages, setMessages] = useState<Message[]>(() => {
+    try {
+      const stored = localStorage.getItem(MESSAGES_KEY)
+      if (stored) return JSON.parse(stored) as Message[]
+    } catch {}
+    return [INITIAL_MESSAGE]
+  })
+
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages))
+  }, [messages])
+
+  useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  function handleReset() {
+    const newId = crypto.randomUUID()
+    localStorage.setItem(SESSION_KEY, newId)
+    localStorage.removeItem(MESSAGES_KEY)
+    setSessionId(newId)
+    setMessages([INITIAL_MESSAGE])
+  }
 
   async function handleSend() {
     const text = input.trim()
@@ -132,6 +152,15 @@ export function Chat({ onNavigateToWiki }: ChatProps) {
             style={{ borderRadius: '2px' }}
           >
             Invia
+          </button>
+          <button
+            onClick={handleReset}
+            disabled={loading}
+            title="Nuova conversazione"
+            className="px-4 py-2 border border-gray-300 text-gray-500 text-sm font-mono hover:border-accent hover:text-accent transition-colors disabled:opacity-50"
+            style={{ borderRadius: '2px' }}
+          >
+            ↺
           </button>
         </div>
         <p className="text-center text-xs text-gray-400 mt-2 font-mono">

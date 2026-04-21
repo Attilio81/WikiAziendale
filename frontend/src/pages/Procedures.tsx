@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   fetchProcedures,
@@ -18,6 +18,8 @@ export function Procedures() {
   const [search, setSearch] = useState('')
   const [categoria, setCategoria] = useState('')
   const [uploadError, setUploadError] = useState<string | null>(null)
+  const [compilationErrors, setCompilationErrors] = useState<{ id: string; titolo: string; error: string }[]>([])
+  const prevStatusRef = useRef<Record<string, string>>({})
   const fileInputRef = useRef<HTMLInputElement>(null)
   const qc = useQueryClient()
   const { isOpen, editingProcedure, open, close } = useModalStore()
@@ -30,7 +32,30 @@ export function Procedures() {
         q: search || undefined,
         categoria: categoria || undefined,
       }),
+    refetchInterval: (query) => {
+      const items = query.state.data?.items
+      return items?.some((p) => p.compilation_status === 'pending') ? 3000 : false
+    },
   })
+
+  useEffect(() => {
+    if (!data) return
+    const newErrors: { id: string; titolo: string; error: string }[] = []
+    for (const proc of data.items) {
+      const prev = prevStatusRef.current[proc.id]
+      if (prev === 'pending' && proc.compilation_status === 'failed') {
+        newErrors.push({
+          id: proc.id,
+          titolo: proc.titolo,
+          error: proc.compilation_error ?? 'Errore sconosciuto',
+        })
+      }
+      prevStatusRef.current[proc.id] = proc.compilation_status
+    }
+    if (newErrors.length > 0) {
+      setCompilationErrors((prev) => [...prev, ...newErrors])
+    }
+  }, [data])
 
   const createMutation = useMutation({
     mutationFn: createProcedure,
@@ -145,6 +170,26 @@ export function Procedures() {
           style={{ borderRadius: '2px' }}
         />
       </div>
+
+      {/* Compilation errors */}
+      {compilationErrors.map((ce) => (
+        <div
+          key={ce.id}
+          className="border border-accent/30 bg-accent-light px-5 py-3 text-sm font-mono text-accent flex justify-between items-start"
+          style={{ borderRadius: '2px' }}
+        >
+          <div>
+            <span className="font-semibold">Compilazione fallita:</span> {ce.titolo}
+            <p className="text-xs mt-0.5 opacity-80 break-all">{ce.error}</p>
+          </div>
+          <button
+            onClick={() => setCompilationErrors((prev) => prev.filter((e) => e.id !== ce.id))}
+            className="ml-4 opacity-60 hover:opacity-100 shrink-0"
+          >
+            ✕
+          </button>
+        </div>
+      ))}
 
       {/* Upload error */}
       {uploadError && (
