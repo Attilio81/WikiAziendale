@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   fetchProcedures,
   createProcedure,
   updateProcedure,
   deleteProcedure,
+  uploadProcedure,
   type Procedure,
   type ProcedureCreate,
 } from '../api/procedures'
@@ -16,6 +17,8 @@ export function Procedures() {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [categoria, setCategoria] = useState('')
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const qc = useQueryClient()
   const { isOpen, editingProcedure, open, close } = useModalStore()
 
@@ -45,6 +48,23 @@ export function Procedures() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['procedures'] }),
   })
 
+  const uploadMutation = useMutation({
+    mutationFn: (file: File) => uploadProcedure(file),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['procedures'] })
+      setUploadError(null)
+    },
+    onError: (err: Error) => setUploadError(err.message),
+  })
+
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploadError(null)
+    await uploadMutation.mutateAsync(file)
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
   async function handleSave(formData: ProcedureCreate) {
     if (editingProcedure) {
       await updateMutation.mutateAsync({ id: editingProcedure.id, data: formData })
@@ -71,14 +91,31 @@ export function Procedures() {
             </p>
           )}
         </div>
-        <button
-          onClick={() => open()}
-          className="px-5 py-2.5 bg-nav text-white text-sm font-mono hover:bg-accent transition-colors flex items-center gap-2"
-          style={{ borderRadius: '2px' }}
-        >
-          <span className="text-accent group-hover:text-white text-lg leading-none">+</span>
-          Nuova procedura
-        </button>
+        <div className="flex gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".pdf,.docx,.txt"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploadMutation.isPending}
+            className="px-5 py-2.5 border border-nav text-nav text-sm font-mono hover:bg-nav hover:text-white transition-colors flex items-center gap-2 disabled:opacity-50"
+            style={{ borderRadius: '2px' }}
+          >
+            {uploadMutation.isPending ? '...' : '↑ Carica file'}
+          </button>
+          <button
+            onClick={() => open()}
+            className="px-5 py-2.5 bg-nav text-white text-sm font-mono hover:bg-accent transition-colors flex items-center gap-2"
+            style={{ borderRadius: '2px' }}
+          >
+            <span className="text-accent group-hover:text-white text-lg leading-none">+</span>
+            Nuova procedura
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -108,6 +145,17 @@ export function Procedures() {
           style={{ borderRadius: '2px' }}
         />
       </div>
+
+      {/* Upload error */}
+      {uploadError && (
+        <div
+          className="border border-accent/30 bg-accent-light px-5 py-3 text-sm font-mono text-accent flex justify-between items-center"
+          style={{ borderRadius: '2px' }}
+        >
+          <span>Errore upload: {uploadError}</span>
+          <button onClick={() => setUploadError(null)} className="ml-4 opacity-60 hover:opacity-100">✕</button>
+        </div>
+      )}
 
       {/* Loading */}
       {isLoading && (

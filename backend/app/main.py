@@ -7,6 +7,7 @@ from app.core.db import get_engine, Base
 import app.models  # noqa: F401 — registers all models with Base.metadata
 from app.api.procedures import router as procedures_router
 from app.api.wiki import router as wiki_router
+from app.api.chat import router as chat_router
 
 
 @asynccontextmanager
@@ -30,6 +31,7 @@ app.add_middleware(
 
 app.include_router(procedures_router, prefix="/api/v1/procedures", tags=["procedures"])
 app.include_router(wiki_router, prefix="/api/v1/wiki", tags=["wiki"])
+app.include_router(chat_router, prefix="/api/v1/chat", tags=["chat"])
 
 
 @app.get("/health")

@@ -458,7 +458,8 @@
   <a href="#architettura">Architettura</a>
   <div class="nav-section">Componenti</div>
   <a href="#backend">Backend FastAPI</a>
-  <a href="#agente">Agente AI</a>
+  <a href="#agente">Agente AI (compiler)</a>
+  <a href="#query-agent">Query Agent (chat)</a>
   <a href="#database">Database</a>
   <a href="#frontend">Frontend React</a>
   <div class="nav-section">Operazioni</div>
@@ -580,10 +581,12 @@
         <thead><tr><th>Metodo</th><th>Path</th><th>Descrizione</th></tr></thead>
         <tbody>
           <tr><td><code>POST</code></td><td>/api/v1/procedures/</td><td>Crea procedura + avvia compilazione background</td></tr>
+          <tr><td><code>POST</code></td><td>/api/v1/procedures/upload</td><td>Carica file .pdf/.docx/.txt → crea procedura</td></tr>
           <tr><td><code>GET</code></td><td>/api/v1/procedures/</td><td>Lista con filtri (q, categoria, status, page)</td></tr>
           <tr><td><code>GET</code></td><td>/api/v1/procedures/{id}</td><td>Singola procedura per UUID</td></tr>
           <tr><td><code>PUT</code></td><td>/api/v1/procedures/{id}</td><td>Aggiorna + incrementa version + ricompila</td></tr>
           <tr><td><code>DELETE</code></td><td>/api/v1/procedures/{id}</td><td>Elimina procedura (wiki non aggiornata)</td></tr>
+          <tr><td><code>POST</code></td><td>/api/v1/chat/</td><td>Messaggio chat → risposta AI con fonti wiki</td></tr>
           <tr><td><code>GET</code></td><td>/api/v1/wiki/pages</td><td>Lista pagine wiki (slug, titolo)</td></tr>
           <tr><td><code>GET</code></td><td>/api/v1/wiki/pages/{slug}</td><td>Contenuto pagina wiki in Markdown</td></tr>
           <tr><td><code>GET</code></td><td>/api/v1/wiki/index</td><td>Indice wiki (struttura albero Markdown)</td></tr>
@@ -677,9 +680,70 @@
     </div>
   </section>
 
+  <!-- QUERY AGENT -->
+  <section id="query-agent">
+    <h2><span class="section-num">06 /</span> Query Agent (Chat)</h2>
+
+    <p>Il Query Agent risponde a domande in linguaggio naturale sulla wiki aziendale. A differenza del Compiler Agent (background), viene invocato per ogni richiesta chat e mantiene la storia della conversazione tramite <code>SqliteDb</code> di Agno (<code>chat_sessions.db</code>).</p>
+
+    <h3>Architettura</h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-dot">1</div>
+        <div class="flow-content">
+          <strong>POST /api/v1/chat/</strong>
+          <span>Riceve <code>{message, session_id}</code>. Il <code>session_id</code> è generato dal frontend (UUID v4) e persistito in localStorage.</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">2</div>
+        <div class="flow-content">
+          <strong>make_query_agent()</strong>
+          <span>Costruisce l'agente Agno con <code>add_history_to_context=True</code>, <code>num_history_runs=5</code> — recupera gli ultimi 5 scambi dalla sessione.</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">3</div>
+        <div class="flow-content">
+          <strong>Tool calls (wiki search)</strong>
+          <span><code>list_wiki_pages()</code>, <code>search_wiki_pages(query)</code> (ILIKE su titolo + contenuto), <code>get_wiki_page(slug)</code>.</span>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">4</div>
+        <div class="flow-content">
+          <strong>Risposta con fonti</strong>
+          <span>Il system prompt istruisce l'agente a chiudere ogni risposta con <code>**Fonti:** slug1, slug2</code>. Il backend la estrae via regex e la restituisce separata nel JSON.</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Schema risposta</h3>
+    <pre data-label="JSON"><code>{
+  "answer": "Testo della risposta pulito",
+  "sources": ["ricezione-merci", "gestione-ddt"],
+  "session_id": "550e8400-e29b-41d4-a716-446655440000"
+}</code></pre>
+
+    <h3>File principali</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>File</th><th>Responsabilità</th></tr></thead>
+        <tbody>
+          <tr><td><code>app/agents/query.py</code></td><td>make_query_agent() + tool functions</td></tr>
+          <tr><td><code>app/agents/prompts/query.md</code></td><td>System prompt in italiano</td></tr>
+          <tr><td><code>app/api/chat.py</code></td><td>Router POST /chat/ + parsing fonti</td></tr>
+          <tr><td><code>app/schemas/chat.py</code></td><td>ChatRequest / ChatResponse</td></tr>
+          <tr><td><code>frontend/src/api/chat.ts</code></td><td>sendMessage() client</td></tr>
+          <tr><td><code>frontend/src/pages/Chat.tsx</code></td><td>UI chat multi-turno</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- DATABASE -->
   <section id="database">
-    <h2><span class="section-num">06 /</span> Database</h2>
+    <h2><span class="section-num">07 /</span> Database</h2>
 
     <h3>Tabelle</h3>
     <div class="table-wrap">
@@ -699,7 +763,7 @@
 
   <!-- FRONTEND -->
   <section id="frontend">
-    <h2><span class="section-num">07 /</span> Frontend React</h2>
+    <h2><span class="section-num">08 /</span> Frontend React</h2>
 
     <h3>Routing</h3>
     <p>Routing a stato (nessun react-router). <code>App.tsx</code> gestisce un <code>useState('procedures' | 'wiki')</code> e renderizza la pagina corrispondente. Le tab nella navbar cambiano lo stato.</p>
@@ -721,7 +785,7 @@
 
   <!-- SETUP -->
   <section id="setup">
-    <h2><span class="section-num">08 /</span> Setup & Avvio</h2>
+    <h2><span class="section-num">09 /</span> Setup & Avvio</h2>
 
     <h3>Avvio completo (Windows)</h3>
     <pre data-label="CMD"><code>start.bat</code></pre>

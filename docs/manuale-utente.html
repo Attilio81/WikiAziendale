@@ -489,8 +489,10 @@
   <div class="topbar-brand">Wiki Aziendale</div>
   <ul class="topbar-nav">
     <li><a href="#caricare">Caricare</a></li>
-    <li><a href="#wiki">Leggere la Wiki</a></li>
+    <li><a href="#upload">Importa file</a></li>
+    <li><a href="#wiki">Wiki</a></li>
     <li><a href="#aggiornare">Aggiornare</a></li>
+    <li><a href="#chat">Chat AI</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
   <div class="topbar-badge">Guida utente</div>
@@ -581,6 +583,45 @@
     </div>
 
     <p>Clicca <strong>Salva</strong>. La procedura viene registrata e la compilazione parte in automatico.</p>
+  </div>
+
+  <!-- UPLOAD FILE -->
+  <div class="section" id="upload">
+    <div class="section-header">
+      <span class="section-num">02b.</span>
+      <h2>Importare da file (PDF, Word, TXT)</h2>
+    </div>
+
+    <p>Hai già una procedura come documento Word, PDF o file di testo? Puoi importarla direttamente senza ricopiarla.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Clicca "↑ Carica file"</h4>
+          <p>Il pulsante si trova in alto a destra nella sezione <strong>Procedure</strong>, accanto a "+ Nuova procedura".</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Seleziona il file</h4>
+          <p>Sono accettati: <strong>.pdf</strong>, <strong>.docx</strong> (Word), <strong>.txt</strong>. Il titolo viene derivato automaticamente dal nome del file.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>La procedura viene creata</h4>
+          <p>Il testo viene estratto e salvato. La compilazione wiki parte in automatico, come per le procedure inserite manualmente.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">💡</div>
+      <div>Se il nome del file è <code>ricezione-merci.pdf</code>, il titolo sarà automaticamente <strong>"Ricezione Merci"</strong>. Puoi modificarlo in seguito dalla scheda della procedura.</div>
+    </div>
   </div>
 
   <!-- STATI -->
@@ -690,10 +731,49 @@
     </div>
   </div>
 
+  <!-- CHAT -->
+  <div class="section" id="chat">
+    <div class="section-header">
+      <span class="section-num">06.</span>
+      <h2>Chattare con la wiki</h2>
+    </div>
+
+    <p>Il tab <strong>Chat</strong> ti permette di fare domande in linguaggio naturale sulla wiki aziendale. Non devi sapere dove si trova un'informazione: chiedi e l'AI risponde citando le pagine sorgente.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Apri il tab "Chat"</h4>
+          <p>Clicca su <strong>Chat</strong> nella barra di navigazione in alto.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Scrivi la tua domanda</h4>
+          <p>Esempio: <em>"Come si gestisce il reso merce al fornitore?"</em> o <em>"Chi è responsabile del controllo qualità all'ingresso?"</em></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Leggi la risposta con le fonti</h4>
+          <p>L'AI risponde e mostra le pagine wiki da cui ha preso le informazioni. Clicca su una fonte per aprire direttamente quella pagina nella Wiki.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-icon">💡</div>
+      <div>La chat è <strong>multi-turno</strong>: ricorda i messaggi precedenti nella stessa sessione. Puoi fare domande di approfondimento senza ripetere il contesto. La sessione si azzera ricaricando la pagina.</div>
+    </div>
+  </div>
+
   <!-- FAQ -->
   <div class="section" id="faq">
     <div class="section-header">
-      <span class="section-num">06.</span>
+      <span class="section-num">07.</span>
       <h2>Domande frequenti</h2>
     </div>
 

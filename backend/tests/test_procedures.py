@@ -1,3 +1,4 @@
+import io
 import pytest
 
 VALID_PAYLOAD = {
@@ -161,3 +162,116 @@ async def test_update_procedure_resets_compilation_status(client):
     r = await client.put(f"/api/v1/procedures/{proc_id}", json={"titolo": "Aggiornata"})
     assert r.status_code == 200
     assert r.json()["compilation_status"] == "pending"
+
+
+# --- Upload helpers ---
+
+def _make_docx(text: str) -> bytes:
+    from docx import Document
+    doc = Document()
+    doc.add_paragraph(text)
+    buf = io.BytesIO()
+    doc.save(buf)
+    return buf.getvalue()
+
+
+def test_extract_txt():
+    from app.api.procedures import _extract_txt
+    result = _extract_txt(b"Procedura aziendale\nPasso 1: fare qualcosa")
+    assert "Procedura aziendale" in result
+    assert "Passo 1" in result
+
+
+def test_extract_docx():
+    from app.api.procedures import _extract_docx
+    result = _extract_docx(_make_docx("Contenuto procedura di test"))
+    assert "Contenuto procedura di test" in result
+
+
+def test_extract_docx_multiple_paragraphs():
+    from app.api.procedures import _extract_docx
+    from docx import Document
+    doc = Document()
+    doc.add_paragraph("Primo paragrafo")
+    doc.add_paragraph("Secondo paragrafo")
+    buf = io.BytesIO()
+    doc.save(buf)
+    result = _extract_docx(buf.getvalue())
+    assert "Primo paragrafo" in result
+    assert "Secondo paragrafo" in result
+
+
+def test_derive_title_from_filename():
+    from app.api.procedures import _derive_title
+    assert _derive_title("ricezione-merci.pdf") == "Ricezione Merci"
+    assert _derive_title("gestione_non_conformita.docx") == "Gestione Non Conformita"
+    assert _derive_title("Procedura Acquisti.txt") == "Procedura Acquisti"
+
+
+# --- Upload endpoint ---
+
+async def test_upload_txt_creates_procedure(client):
+    content = b"Procedura di magazzino\n\nPasso 1: controllare DDT\nPasso 2: firmare registro"
+    resp = await client.post(
+        "/api/v1/procedures/upload",
+        files={"file": ("ricezione-merci.txt", content, "text/plain")},
+    )
+    assert resp.status_code == 201
+    data = resp.json()
+    assert data["titolo"] == "Ricezione Merci"
+    assert data["compilation_status"] == "pending"
+    assert "DDT" in data["contenuto_md"]
+
+
+async def test_upload_docx_creates_procedure(client):
+    docx_bytes = _make_docx("Procedura di qualità per la gestione delle non conformità")
+    resp = await client.post(
+        "/api/v1/procedures/upload",
+        files={"file": ("gestione-nc.docx", docx_bytes,
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document")},
+    )
+    assert resp.status_code == 201
+    data = resp.json()
+    assert data["titolo"] == "Gestione Nc"
+    assert data["compilation_status"] == "pending"
+
+
+async def test_upload_with_categoria_and_autore(client):
+    resp = await client.post(
+        "/api/v1/procedures/upload",
+        files={"file": ("test.txt", b"Procedura di test", "text/plain")},
+        data={"categoria": "Qualità", "autore": "Mario Rossi"},
+    )
+    assert resp.status_code == 201
+    data = resp.json()
+    assert data["categoria"] == "Qualità"
+    assert data["autore"] == "Mario Rossi"
+
+
+async def test_upload_unsupported_format_returns_400(client):
+    resp = await client.post(
+        "/api/v1/procedures/upload",
+        files={"file": ("document.xlsx", b"fake", "application/octet-stream")},
+    )
+    assert resp.status_code == 400
+    assert "non supportato" in resp.json()["detail"]
+
+
+async def test_upload_empty_content_returns_400(client):
+    resp = await client.post(
+        "/api/v1/procedures/upload",
+        files={"file": ("vuoto.txt", b"   \n\n   ", "text/plain")},
+    )
+    assert resp.status_code == 400
+    assert "estrarre testo" in resp.json()["detail"]
+
+
+async def test_upload_no_api_key_returns_401(client):
+    from httpx import AsyncClient, ASGITransport
+    from app.main import app as test_app
+    async with AsyncClient(transport=ASGITransport(app=test_app), base_url="http://test") as ac:
+        resp = await ac.post(
+            "/api/v1/procedures/upload",
+            files={"file": ("test.txt", b"contenuto", "text/plain")},
+        )
+    assert resp.status_code == 401

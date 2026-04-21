@@ -1,6 +1,9 @@
+import io
 import uuid
 from datetime import datetime, timezone
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
+from pathlib import Path
+from typing import Optional
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, Query, UploadFile, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
@@ -16,6 +19,63 @@ from app.schemas.procedure import (
 from app.services.compilation import compile_in_background
 
 router = APIRouter()
+
+ALLOWED_EXTENSIONS = {".pdf", ".docx", ".txt"}
+
+
+def _extract_txt(content: bytes) -> str:
+    return content.decode("utf-8", errors="replace")
+
+
+def _extract_docx(content: bytes) -> str:
+    from docx import Document
+    doc = Document(io.BytesIO(content))
+    return "\n".join(p.text for p in doc.paragraphs if p.text.strip())
+
+
+def _extract_pdf(content: bytes) -> str:
+    import pdfplumber
+    with pdfplumber.open(io.BytesIO(content)) as pdf:
+        pages = [page.extract_text() or "" for page in pdf.pages]
+    return "\n".join(pages)
+
+
+def _derive_title(filename: str) -> str:
+    stem = Path(filename).stem
+    return stem.replace("-", " ").replace("_", " ").strip().title()
+
+
+@router.post("/upload", response_model=ProcedureRead, status_code=status.HTTP_201_CREATED)
+async def upload_procedure(
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+    _: None = Depends(verify_api_key),
+    file: UploadFile = File(...),
+    categoria: Optional[str] = Form(None),
+    autore: Optional[str] = Form(None),
+):
+    ext = Path(file.filename or "").suffix.lower()
+    if ext not in ALLOWED_EXTENSIONS:
+        raise HTTPException(
+            status_code=400,
+            detail="Formato non supportato. Usa .pdf, .docx o .txt",
+        )
+    content_bytes = await file.read()
+    if ext == ".txt":
+        testo = _extract_txt(content_bytes)
+    elif ext == ".docx":
+        testo = _extract_docx(content_bytes)
+    else:
+        testo = _extract_pdf(content_bytes)
+    if not testo.strip():
+        raise HTTPException(status_code=400, detail="Impossibile estrarre testo dal file")
+    titolo = _derive_title(file.filename or "documento")
+    proc = ProcedureRaw(titolo=titolo, contenuto_md=testo, categoria=categoria, autore=autore)
+    db.add(proc)
+    await db.commit()
+    await db.refresh(proc)
+    background_tasks.add_task(compile_in_background, [proc.id], "create")
+    return proc
 
 
 @router.post("/", response_model=ProcedureRead, status_code=status.HTTP_201_CREATED)

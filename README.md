@@ -33,10 +33,12 @@ Non è un sistema RAG. La conoscenza viene compilata una volta e servita dal dat
 ## Funzionalità
 
 - **CRUD procedure** — carica, modifica ed elimina procedure nel formato che hai
+- **Caricamento file** — importa procedure da file `.pdf`, `.docx` o `.txt` con un click
 - **Compilazione automatica** — l'agente AI crea o aggiorna la pagina wiki appena salvi
 - **Fusione intelligente** — se due procedure trattano lo stesso argomento, l'AI le unisce
 - **Wiki navigabile** — sidebar con ricerca, pagine in Markdown renderizzato
 - **Indice automatico** — struttura ad albero ricostruita ad ogni modifica
+- **Chat con la wiki** — agente AI multi-turno che risponde in italiano citando le fonti
 - **Multi-provider AI** — LM Studio locale, OpenAI, OpenRouter, Azure OpenAI
 - **Tutto in locale** — nessuna dipendenza cloud obbligatoria
 
@@ -139,23 +141,26 @@ Browser (React SPA : 5175)
          │  REST + X-API-Key
          ▼
 Backend FastAPI (: 8000)
-         │                    │
-         ▼                    ▼
-   SQLite DB           Agente Agno
-   (llm_wiki.db)       (background task)
-                              │
-                              ▼
-                     LM Studio / OpenAI
-                     (porta 1234 / cloud)
+         │              │               │
+         ▼              ▼               ▼
+   SQLite DB      Compiler Agent   Query Agent
+   (llm_wiki.db)  (background)     (per-request)
+                        │               │
+                        └───────┬───────┘
+                                ▼
+                       LM Studio / OpenAI
+                       (porta 1234 / cloud)
+
+chat_sessions.db  ← sessioni multi-turno Chat
 ```
 
 ### Flusso compilazione
 
 ```
-POST /procedures/
+POST /procedures/  (o /procedures/upload)
   └─ Salva procedura (status = pending)
   └─ BackgroundTask → compile_in_background()
-        └─ Agente AI con 6 tool:
+        └─ Compiler Agent con 6 tool:
              ├─ get_raw_procedure()
              ├─ list_wiki_pages()
              ├─ get_wiki_page()
@@ -164,6 +169,18 @@ POST /procedures/
              └─ rebuild_wiki_index()
         └─ procedure.status = "compiled"
         └─ CompilationLog saved
+```
+
+### Flusso chat
+
+```
+POST /chat/  {message, session_id}
+  └─ Query Agent (Agno, session stateful)
+        └─ Tool: search_wiki_pages(query)
+        └─ Tool: get_wiki_page(slug)
+        └─ Tool: list_wiki_pages()
+  └─ Risposta con citazione fonti (**Fonti:** slug1, slug2)
+  └─ Frontend: source chips cliccabili → apre Wiki
 ```
 
 ---
@@ -190,7 +207,7 @@ alembic upgrade head
 
 ```bash
 cd backend
-pytest tests/ -v   # 25 test
+pytest tests/ -v   # ~40 test
 ```
 
 ---
@@ -204,18 +221,18 @@ WikiAziendale/
 ├── docker-compose.yml
 ├── backend/
 │   ├── app/
-│   │   ├── api/            ← procedures.py, wiki.py
-│   │   ├── agents/         ← compiler.py + prompts/
+│   │   ├── api/            ← procedures.py, wiki.py, chat.py
+│   │   ├── agents/         ← compiler.py, query.py + prompts/
 │   │   ├── services/       ← compilation.py
 │   │   ├── models/         ← SQLAlchemy ORM
-│   │   ├── schemas/        ← Pydantic v2
+│   │   ├── schemas/        ← Pydantic v2 (+ chat.py)
 │   │   └── core/           ← db, llm factory, security
 │   ├── alembic/
 │   └── tests/
 ├── frontend/
 │   └── src/
-│       ├── api/
-│       ├── pages/          ← Procedures, Wiki
+│       ├── api/            ← procedures.ts, wiki.ts, chat.ts
+│       ├── pages/          ← Procedures, Wiki, Chat
 │       └── components/
 ├── docs/
 │   ├── manuale-tecnico.html
@@ -239,7 +256,7 @@ WikiAziendale/
 
 - [x] Phase 1 — CRUD procedure + frontend gestione
 - [x] Phase 2 — Compiler Agent, wiki auto-generate
-- [ ] Phase 3 — Query Agent, chat UI
+- [x] Phase 3 — Query Agent chat UI + upload file PDF/DOCX/TXT
 - [ ] Phase 4 — Osservabilità, metriche, deploy guide
 
 ---

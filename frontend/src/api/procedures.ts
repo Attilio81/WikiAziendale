@@ -73,3 +73,16 @@ export async function deleteProcedure(id: string): Promise<void> {
   const res = await fetch(`${BASE}/procedures/${id}`, { method: 'DELETE', headers })
   return handleResponse(res)
 }
+
+export async function uploadProcedure(file: File, categoria?: string, autore?: string): Promise<Procedure> {
+  const formData = new FormData()
+  formData.append('file', file)
+  if (categoria) formData.append('categoria', categoria)
+  if (autore) formData.append('autore', autore)
+  const res = await fetch(`${BASE}/procedures/upload`, {
+    method: 'POST',
+    headers: { 'X-API-Key': headers['X-API-Key'] },
+    body: formData,
+  })
+  return handleResponse<Procedure>(res)
+}

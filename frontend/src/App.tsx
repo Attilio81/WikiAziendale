@@ -1,15 +1,27 @@
 import { useState } from 'react'
 import { Procedures } from './pages/Procedures'
 import { Wiki } from './pages/Wiki'
+import { Chat } from './pages/Chat'
 
-type Page = 'procedures' | 'wiki'
+type Page = 'procedures' | 'wiki' | 'chat'
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('procedures')
+  const [wikiSlug, setWikiSlug] = useState<string | undefined>(undefined)
+
+  function handleNavigateToWiki(slug: string) {
+    setWikiSlug(slug)
+    setCurrentPage('wiki')
+  }
+
+  function handleNavClick(page: Page) {
+    setCurrentPage(page)
+    if (page !== 'wiki') setWikiSlug(undefined)
+  }
 
   const navLink = (page: Page, label: string) => (
     <button
-      onClick={() => setCurrentPage(page)}
+      onClick={() => handleNavClick(page)}
       className={`text-sm transition-colors pb-0.5 ${
         currentPage === page
           ? 'text-white border-b border-accent'
@@ -30,6 +42,7 @@ export default function App() {
           <div className="flex gap-6">
             {navLink('procedures', 'Procedure')}
             {navLink('wiki', 'Wiki')}
+            {navLink('chat', 'Chat')}
           </div>
         </div>
       </nav>
@@ -39,7 +52,12 @@ export default function App() {
           <Procedures />
         </main>
       )}
-      {currentPage === 'wiki' && <Wiki />}
+      {currentPage === 'wiki' && <Wiki initialSlug={wikiSlug} />}
+      {currentPage === 'chat' && (
+        <main className="max-w-7xl mx-auto">
+          <Chat onNavigateToWiki={handleNavigateToWiki} />
+        </main>
+      )}
     </div>
   )
 }

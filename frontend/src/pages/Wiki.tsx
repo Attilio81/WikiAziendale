@@ -9,8 +9,12 @@ import {
   type WikiPageListItem,
 } from '../api/wiki'
 
-export function Wiki() {
-  const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
+interface WikiProps {
+  initialSlug?: string
+}
+
+export function Wiki({ initialSlug }: WikiProps = {}) {
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(initialSlug ?? null)
   const [search, setSearch] = useState('')
 
   const { data: pages = [], isLoading: pagesLoading, isError: pagesError } = useQuery({
