@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     AZURE_OPENAI_DEPLOYMENT_COMPILER: str = "gpt-4o-mini"
     AZURE_OPENAI_DEPLOYMENT_QUERY: str = "gpt-4o-mini"
 
+    LLM_DISABLE_THINKING: bool = False
+
     COMPILER_TIMEOUT_SECONDS: int = 180
     QUERY_TIMEOUT_SECONDS: int = 30
     COMPILER_MAX_RETRIES: int = 1
