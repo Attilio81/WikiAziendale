@@ -268,7 +268,6 @@ WikiAziendale/
 
 ## Limitazioni note
 
-- `COMPILER_TIMEOUT_SECONDS` configurato ma non ancora applicato all'agente
 - `tokens_used` sempre null nel log (Agno non espone usage)
 - Eliminare una procedura non aggiorna la wiki (richiede rebuild manuale)
 - SQLite: nessuna concorrenza in scrittura (adeguato per uso aziendale small-scale)
