@@ -43,8 +43,8 @@
   /* HERO */
   .hero {
     background: var(--ink);
-    min-height: 340px;
-    padding: 64px 60px;
+    min-height: 300px;
+    padding: 56px 60px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -77,18 +77,18 @@
 
   .hero h1 {
     font-family: var(--display);
-    font-size: clamp(32px, 4.5vw, 56px);
+    font-size: clamp(28px, 4vw, 50px);
     font-weight: 800;
     color: #f5f0ea;
     line-height: 1.05;
     letter-spacing: -0.02em;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     max-width: 680px;
   }
 
   .hero-sub {
-    font-size: 15px;
-    color: rgba(245,240,234,0.55);
+    font-size: 14px;
+    color: rgba(245,240,234,0.5);
     max-width: 520px;
     font-weight: 300;
     line-height: 1.6;
@@ -96,19 +96,19 @@
 
   .hero-chips {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
-    margin-top: 28px;
+    margin-top: 24px;
   }
 
   .chip {
     display: inline-block;
-    padding: 5px 14px;
+    padding: 4px 12px;
     border-radius: 100px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     border: 1px solid rgba(255,255,255,0.12);
-    color: rgba(245,240,234,0.65);
+    color: rgba(245,240,234,0.6);
   }
 
   /* NAV */
@@ -126,9 +126,9 @@
 
   .subnav a {
     display: block;
-    padding: 14px 20px;
+    padding: 13px 18px;
     font-family: var(--display);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -145,234 +145,46 @@
   .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 64px 60px 96px;
+    padding: 56px 60px 96px;
   }
 
   /* SECTION */
-  .section { margin-bottom: 80px; scroll-margin-top: 56px; }
+  .section { margin-bottom: 72px; scroll-margin-top: 56px; }
 
   .section-title {
     font-family: var(--display);
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
     letter-spacing: -0.02em;
     color: var(--ink);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .section-sub {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--ink-light);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 16px;
+    padding-bottom: 14px;
   }
 
   h3 {
     font-family: var(--display);
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--ink-mid);
-    margin: 32px 0 12px;
+    margin: 28px 0 10px;
   }
 
   p { color: var(--ink-mid); margin-bottom: 12px; font-size: 15px; }
 
-  /* MODEL CARD */
-  .model-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
-    margin: 16px 0;
-  }
-
-  .model-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .model-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-  }
-
-  .model-card.green::before { background: var(--green); }
-  .model-card.blue::before { background: var(--blue); }
-  .model-card.amber::before { background: #d4a017; }
-  .model-card.red::before { background: var(--red); }
-  .model-card.purple::before { background: var(--purple); }
-
-  .model-name {
-    font-family: var(--display);
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 12px;
-  }
-
-  .model-stat {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 0;
-    border-bottom: 1px solid var(--bg3);
-    font-size: 12.5px;
-  }
-
-  .model-stat:last-child { border-bottom: none; }
-
-  .model-stat-label { color: var(--ink-light); }
-  .model-stat-val { font-weight: 600; color: var(--ink); font-family: var(--display); }
-
-  .model-badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 100px;
-    margin-bottom: 10px;
-  }
-
-  .badge-moe { background: var(--purple-light); color: var(--purple); }
-  .badge-dense { background: var(--blue-light); color: var(--blue); }
-  .badge-edge { background: var(--green-light); color: var(--green); }
-
-  /* VRAM TABLE */
-  .table-wrap { overflow-x: auto; margin: 16px 0; }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13.5px;
-  }
-
-  thead tr {
-    background: var(--ink);
-    color: #f5f0ea;
-  }
-
-  th {
-    padding: 11px 14px;
-    text-align: left;
-    font-family: var(--display);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  td {
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-    color: var(--ink-mid);
-  }
-
-  tr:hover td { background: rgba(0,0,0,0.02); }
-
-  tbody tr:last-child td { border-bottom: none; }
-
-  .vram-cell {
-    font-family: var(--display);
-    font-weight: 700;
-    font-size: 13px;
-  }
-
-  .vram-ok { color: var(--green); }
-  .vram-mid { color: var(--amber); }
-  .vram-high { color: var(--red); }
-
-  /* HARDWARE TIERS */
-  .tier-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin: 16px 0;
-  }
-
-  .tier {
-    display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 0;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    background: white;
-  }
-
-  .tier-label {
-    padding: 20px 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .tier.budget .tier-label { background: var(--green-light); }
-  .tier.mid .tier-label { background: var(--blue-light); }
-  .tier.high .tier-label { background: var(--amber-light); }
-  .tier.workstation .tier-label { background: var(--purple-light); }
-  .tier.apple .tier-label { background: #f0f0f0; }
-
-  .tier-name {
-    font-family: var(--display);
-    font-weight: 800;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .tier.budget .tier-name { color: var(--green); }
-  .tier.mid .tier-name { color: var(--blue); }
-  .tier.high .tier-name { color: var(--amber); }
-  .tier.workstation .tier-name { color: var(--purple); }
-  .tier.apple .tier-name { color: #444; }
-
-  .tier-price {
-    font-size: 12px;
-    color: var(--ink-light);
-  }
-
-  .tier-content {
-    padding: 16px 20px;
-    border-left: 1px solid var(--border);
-  }
-
-  .tier-hw {
-    font-weight: 600;
-    color: var(--ink);
-    font-size: 14px;
-    margin-bottom: 4px;
-  }
-
-  .tier-models {
-    font-size: 13px;
-    color: var(--ink-mid);
-    margin-bottom: 6px;
-  }
-
-  .tier-note {
-    font-size: 12.5px;
-    color: var(--ink-light);
-    font-style: italic;
-  }
-
-  /* RECOMMENDATION BOX */
+  /* RECOMMENDATION BOX — top of page */
   .rec-box {
     background: var(--ink);
     border-radius: 12px;
-    padding: 32px 36px;
+    padding: 28px 32px;
     margin: 20px 0;
     color: #f5f0ea;
     position: relative;
@@ -382,9 +194,9 @@
   .rec-box::before {
     content: '★';
     position: absolute;
-    right: 28px;
-    top: 24px;
-    font-size: 80px;
+    right: 24px;
+    top: 20px;
+    font-size: 72px;
     color: rgba(255,255,255,0.04);
     font-family: var(--display);
   }
@@ -396,28 +208,28 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--red);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .rec-title {
     font-family: var(--display);
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
     letter-spacing: -0.02em;
     margin-bottom: 8px;
   }
 
   .rec-why {
-    font-size: 14px;
-    color: rgba(245,240,234,0.6);
+    font-size: 13.5px;
+    color: rgba(245,240,234,0.58);
     max-width: 560px;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
 
   .rec-specs {
     display: flex;
-    gap: 20px;
+    gap: 12px;
     flex-wrap: wrap;
   }
 
@@ -425,11 +237,11 @@
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 8px;
-    padding: 10px 16px;
+    padding: 8px 14px;
   }
 
   .rec-spec-label {
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: rgba(245,240,234,0.4);
@@ -439,7 +251,7 @@
 
   .rec-spec-val {
     font-family: var(--display);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     color: #f5f0ea;
   }
@@ -450,44 +262,234 @@
     border-radius: 0 8px 8px 0;
     padding: 12px 18px;
     margin: 16px 0;
-    font-size: 14px;
+    font-size: 13.5px;
   }
 
-  .callout.info { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
-  .callout.warn { border-color: #d4a017; background: var(--amber-light); color: var(--amber); }
+  .callout.info  { border-color: var(--blue);   background: var(--blue-light);   color: var(--blue);  }
+  .callout.warn  { border-color: #d4a017;        background: var(--amber-light);  color: var(--amber); }
+  .callout.green { border-color: var(--green);   background: var(--green-light);  color: var(--green); }
 
   .callout strong { display: block; font-weight: 700; margin-bottom: 3px; }
   .callout span { color: var(--ink-mid); }
+
+  /* TABLES */
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead tr { background: var(--ink); color: #f5f0ea; }
+
+  th {
+    padding: 10px 13px;
+    text-align: left;
+    font-family: var(--display);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 9px 13px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--ink-mid);
+  }
+
+  tr:hover td { background: rgba(0,0,0,0.02); }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .vram-cell { font-family: var(--display); font-weight: 700; font-size: 13px; }
+  .vram-ok   { color: var(--green); }
+  .vram-mid  { color: var(--amber); }
+  .vram-high { color: var(--red); }
+
+  td strong { color: var(--ink); }
+
+  /* INFRA CARDS */
+  .infra-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0;
+  }
+
+  .infra-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+  }
+
+  .infra-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .infra-card.blue::before  { background: var(--blue); }
+  .infra-card.green::before { background: var(--green); }
+
+  .infra-name {
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .infra-sub {
+    font-size: 11px;
+    color: var(--ink-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+
+  .infra-pros li {
+    font-size: 13px;
+    color: var(--ink-mid);
+    list-style: none;
+    padding: 3px 0;
+  }
+
+  .infra-pros li::before { content: '+ '; color: var(--green); font-weight: 700; }
+  .infra-cons li::before { content: '− '; color: var(--red); font-weight: 700; }
+
+  .infra-verdict {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--bg3);
+    font-size: 12.5px;
+    color: var(--ink-mid);
+    font-style: italic;
+  }
+
+  /* HARDWARE TIERS */
+  .tier-list { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+
+  .tier {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .tier-label {
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .tier.budget .tier-label      { background: var(--green-light); }
+  .tier.mid .tier-label         { background: var(--blue-light); }
+  .tier.high .tier-label        { background: var(--amber-light); }
+  .tier.workstation .tier-label { background: var(--purple-light); }
+  .tier.apple .tier-label       { background: #f0f0f0; }
+
+  .tier-name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .tier.budget .tier-name      { color: var(--green); }
+  .tier.mid .tier-name         { color: var(--blue); }
+  .tier.high .tier-name        { color: var(--amber); }
+  .tier.workstation .tier-name { color: var(--purple); }
+  .tier.apple .tier-name       { color: #444; }
+
+  .tier-price { font-size: 11.5px; color: var(--ink-light); margin-top: 2px; }
+
+  .tier-content {
+    padding: 14px 18px;
+    border-left: 1px solid var(--border);
+  }
+
+  .tier-hw    { font-weight: 600; color: var(--ink); font-size: 13.5px; margin-bottom: 3px; }
+  .tier-models { font-size: 12.5px; color: var(--ink-mid); margin-bottom: 4px; }
+  .tier-note  { font-size: 12px; color: var(--ink-light); font-style: italic; }
 
   /* TAG */
   .tag-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
 
   .tag {
-    padding: 4px 12px;
+    padding: 4px 11px;
     border-radius: 100px;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 600;
     font-family: var(--display);
   }
 
-  .tag.green { background: var(--green-light); color: var(--green); }
-  .tag.blue { background: var(--blue-light); color: var(--blue); }
-  .tag.amber { background: var(--amber-light); color: var(--amber); }
-  .tag.red { background: var(--red-light); color: var(--red); }
+  .tag.green  { background: var(--green-light);  color: var(--green); }
+  .tag.blue   { background: var(--blue-light);   color: var(--blue); }
+  .tag.amber  { background: var(--amber-light);  color: var(--amber); }
+  .tag.red    { background: var(--red-light);    color: var(--red); }
   .tag.purple { background: var(--purple-light); color: var(--purple); }
 
-  /* DIVIDER */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 48px 0;
+  /* VRAM CALC */
+  .vram-calc {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+
+  .vram-calc-title {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-mid);
+    margin-bottom: 14px;
+  }
+
+  .vram-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--bg3);
+    font-size: 13.5px;
+  }
+
+  .vram-row:last-child { border-bottom: none; }
+  .vram-row-label { color: var(--ink-mid); }
+  .vram-row-val   { font-family: var(--display); font-weight: 700; color: var(--ink); }
+  .vram-row.total { margin-top: 4px; }
+  .vram-row.total .vram-row-label { font-weight: 700; color: var(--ink); }
+  .vram-row.total .vram-row-val   { color: var(--red); font-size: 16px; }
+
+  .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+  .price-note {
+    font-size: 11px;
+    color: var(--ink-light);
+    font-style: italic;
   }
 
   @media (max-width: 680px) {
-    .hero, .container, .subnav { padding-left: 24px; padding-right: 24px; }
+    .hero, .container, .subnav { padding-left: 20px; padding-right: 20px; }
     .tier { grid-template-columns: 1fr; }
     .tier-content { border-left: none; border-top: 1px solid var(--border); }
-    .model-grid { grid-template-columns: 1fr 1fr; }
+    .infra-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -496,308 +498,351 @@
 <div class="hero">
   <div class="hero-bg-text">GPU</div>
   <div class="hero-label">Guida hardware — Aprile 2026</div>
-  <h1>Quale hardware per far girare un LLM in locale</h1>
-  <p class="hero-sub">Analisi completa di Gemma 4, Qwen3, Qwen3.5 e Qwen3.6 per l'uso come agente AI nel progetto Wiki Aziendale.</p>
+  <h1>Infrastruttura LLM locale per team da 5 persone</h1>
+  <p class="hero-sub">Hardware, modelli e architettura per un chatbot condiviso con tool calling in italiano. Prezzi aggiornati aprile 2026.</p>
   <div class="hero-chips">
+    <div class="chip">5 utenti concorrenti</div>
     <div class="chip">Tool calling</div>
     <div class="chip">Italiano nativo</div>
-    <div class="chip">128K+ context</div>
-    <div class="chip">LM Studio compatible</div>
+    <div class="chip">vLLM / Ollama server</div>
   </div>
 </div>
 
 <nav class="subnav">
-  <a href="#use-case">Use case</a>
-  <a href="#gemma4">Gemma 4</a>
-  <a href="#qwen3">Qwen3</a>
-  <a href="#qwen35">Qwen3.5</a>
-  <a href="#qwen36">Qwen3.6</a>
-  <a href="#hardware">Hardware</a>
   <a href="#raccomandazione">Raccomandazione</a>
+  <a href="#use-case">Use case</a>
+  <a href="#infrastruttura">Infrastruttura</a>
+  <a href="#vram-math">VRAM e utenti</a>
+  <a href="#modelli">Modelli</a>
+  <a href="#hardware">Hardware</a>
 </nav>
 
 <div class="container">
 
+  <!-- RACCOMANDAZIONE — subito -->
+  <div class="section" id="raccomandazione">
+    <div class="section-title">Raccomandazione</div>
+    <div class="section-sub">Scelta diretta per Wiki Aziendale — 5 utenti, tool calling, italiano</div>
+
+    <div class="rec-box">
+      <div class="rec-box-label">★ Scelta ottimale — server condiviso</div>
+      <div class="rec-title">RTX 5090 32 GB + Qwen3.5-27B Q4</div>
+      <div class="rec-why">Una macchina server con RTX 5090 serve tutti e 5 gli utenti via API. Il Qwen3.5-27B in Q4 (~16 GB) lascia 16 GB liberi per KV cache di 5 sessioni concorrenti, con qualità di tool calling superiore al Qwen3-14B. Il 5090 supera il 4090 del 30-40% su inferenza AI con GDDR7.</div>
+      <div class="rec-specs">
+        <div class="rec-spec"><div class="rec-spec-label">GPU</div><div class="rec-spec-val">RTX 5090 32 GB</div></div>
+        <div class="rec-spec"><div class="rec-spec-label">Modello</div><div class="rec-spec-val">Qwen3.5-27B Q4</div></div>
+        <div class="rec-spec"><div class="rec-spec-label">VRAM modello</div><div class="rec-spec-val">~16 GB</div></div>
+        <div class="rec-spec"><div class="rec-spec-label">KV cache 5 utenti</div><div class="rec-spec-val">~6–8 GB</div></div>
+        <div class="rec-spec"><div class="rec-spec-label">Prezzo GPU</div><div class="rec-spec-val">~€ 3.400</div></div>
+        <div class="rec-spec"><div class="rec-spec-label">Backend</div><div class="rec-spec-val">vLLM + Open WebUI</div></div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>Alternativa budget — RTX 5070 Ti 16 GB (~€ 955)</strong>
+      <span>Con Qwen3.5-9B Q8 (9 GB modello + ~4 GB KV cache per 5 utenti = 13 GB totali): entra nella 5070 Ti 16 GB con margine. Qualità tool calling buona, non eccellente. Ideale se il team usa il chatbot in modo sequenziale più che strettamente concorrente.</span>
+    </div>
+
+    <h3>Confronto rapido opzioni</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Opzione</th><th>GPU</th><th>Prezzo GPU</th><th>Modello</th><th>Qualità agente</th><th>Utenti concorrenti</th></tr></thead>
+        <tbody>
+          <tr><td>Budget</td><td>RTX 5070 Ti 16 GB</td><td>~€ 955</td><td>Qwen3.5-9B Q8</td><td>Buona</td><td>3–5 (leggero)</td></tr>
+          <tr><td><strong>★ Ottimale</strong></td><td><strong>RTX 5090 32 GB</strong></td><td><strong>~€ 3.400</strong></td><td><strong>Qwen3.5-27B Q4</strong></td><td><strong>Eccellente</strong></td><td><strong>5+ confortevole</strong></td></tr>
+          <tr><td>Premium</td><td>RTX 6000 Ada 48 GB</td><td>~€ 5.000+</td><td>Qwen3.5-27B Q8</td><td>Top</td><td>10+ utenti</td></tr>
+          <tr><td>Apple</td><td>Mac Studio M4 Max 64 GB</td><td>~€ 2.500</td><td>Qwen3.5-27B Q8</td><td>Eccellente</td><td>5, silenzioso</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- USE CASE -->
   <div class="section" id="use-case">
-    <div class="section-title">Il nostro use case</div>
-    <div class="section-sub">Cosa chiede il progetto Wiki Aziendale al modello AI</div>
+    <div class="section-title">Use case</div>
+    <div class="section-sub">Cosa chiede il progetto al modello — vincoli concreti</div>
 
-    <p>L'agente compilatore legge procedure aziendali (2.000–5.000 token), decide se creare o aggiornare pagine wiki, chiama 6 tool su database, e produce output strutturato in Markdown. Le procedure possono essere in italiano.</p>
+    <p>L'agente legge procedure aziendali (2.000–5.000 token), decide se creare o aggiornare pagine wiki, chiama tool su database, produce Markdown strutturato. Cinque persone lo usano come chatbot durante la giornata lavorativa — non necessariamente tutte in simultanea, ma con picchi reali di 3–5 richieste concorrenti.</p>
 
     <div class="tag-row">
       <span class="tag blue">Tool calling / function calling</span>
       <span class="tag green">Italiano nativo</span>
-      <span class="tag amber">128K context window</span>
-      <span class="tag purple">Output strutturato Markdown</span>
-      <span class="tag red">Ragionamento multi-step</span>
+      <span class="tag amber">Context 128K+</span>
+      <span class="tag purple">Output Markdown strutturato</span>
+      <span class="tag red">5 utenti concorrenti</span>
     </div>
 
     <div class="callout info">
-      <strong>Cosa conta di più nella scelta</strong>
-      <span>Per use case agentici (tool use + ragionamento), contano: accuratezza nel function calling, capacità di seguire istruzioni complesse e qualità dell'output strutturato. Un modello da 14B ben addestrato batte spesso uno da 32B generico.</span>
+      <strong>Cambio di paradigma: da workstation a server</strong>
+      <span>Con un solo utente bastava LM Studio su un PC potente. Con 5 utenti serve una macchina dedicata che gira H24, espone un'API HTTP, e gestisce le richieste concorrenti. LM Studio non è adatto a questo scenario — usare Ollama o vLLM in modalità server.</span>
     </div>
   </div>
 
-  <!-- GEMMA 4 -->
-  <div class="section" id="gemma4">
-    <div class="section-title">Google Gemma 4</div>
-    <div class="section-sub">Rilasciato il 2 aprile 2026 · 4 varianti · multimodale (testo + visione + audio)</div>
+  <!-- INFRASTRUTTURA -->
+  <div class="section" id="infrastruttura">
+    <div class="section-title">Infrastruttura</div>
+    <div class="section-sub">Architettura per un chatbot condiviso — componenti necessari</div>
 
-    <p>Gemma 4 è un salto generazionale rispetto a Gemma 3 specialmente per il tool calling: dal 6.6% di accuratezza di Gemma 3 si passa all'<strong>86.4%</strong> in Gemma 4. Supporta 140+ lingue incluso l'italiano. La variante MoE (26B-A4B) è particolarmente interessante: parametri totali grandi, ma ne attiva solo 4B per token — quindi VRAM contenuta e inferenza veloce.</p>
+    <h3>Stack consigliato</h3>
+    <div class="callout info">
+      <strong>Server → vLLM o Ollama → Open WebUI → utenti</strong>
+      <span>Una macchina con GPU potente gira il modello come servizio HTTP. Gli utenti accedono tramite Open WebUI (interfaccia chat web) o direttamente via API. Tutto nella rete locale — nessun dato esce dall'azienda.</span>
+    </div>
 
-    <div class="model-grid">
-      <div class="model-card green">
-        <div class="model-badge badge-edge">Edge</div>
-        <div class="model-name">E2B</div>
-        <div class="model-stat"><span class="model-stat-label">Parametri</span><span class="model-stat-val">2B</span></div>
-        <div class="model-stat"><span class="model-stat-label">Context</span><span class="model-stat-val">128K</span></div>
-        <div class="model-stat"><span class="model-stat-label">Q4 VRAM</span><span class="model-stat-val vram-ok">3.1 GB</span></div>
-        <div class="model-stat"><span class="model-stat-label">Q8 VRAM</span><span class="model-stat-val">5.1 GB</span></div>
-        <div class="model-stat"><span class="model-stat-label">BF16 VRAM</span><span class="model-stat-val">9.3 GB</span></div>
+    <h3>Backend di inferenza: quale scegliere</h3>
+    <div class="infra-grid">
+      <div class="infra-card blue">
+        <div class="infra-name">vLLM</div>
+        <div class="infra-sub">Consigliato per multi-utente</div>
+        <ul class="infra-pros">
+          <li>Batching continuo: serve più richieste in parallelo reale</li>
+          <li>3–8× più throughput di Ollama con 5+ utenti</li>
+          <li>KV cache condivisa tra sessioni</li>
+          <li>Supporto tool calling nativo (OpenAI-compatible API)</li>
+        </ul>
+        <ul class="infra-pros infra-cons">
+          <li>Setup più complesso (Linux + Python)</li>
+          <li>CUDA 12+ richiesto, no Windows nativo</li>
+        </ul>
+        <div class="infra-verdict">Scelta giusta per 5 utenti attivi. Richiede Linux (WSL2 su Windows è accettabile).</div>
       </div>
-      <div class="model-card green">
-        <div class="model-badge badge-edge">Edge</div>
-        <div class="model-name">E4B</div>
-        <div class="model-stat"><span class="model-stat-label">Parametri</span><span class="model-stat-val">4B</span></div>
-        <div class="model-stat"><span class="model-stat-label">Context</span><span class="model-stat-val">128K</span></div>
-        <div class="model-stat"><span class="model-stat-label">Q4 VRAM</span><span class="model-stat-val vram-ok">5.0 GB</span></div>
-        <div class="model-stat"><span class="model-stat-label">Q8 VRAM</span><span class="model-stat-val">8.2 GB</span></div>
-        <div class="model-stat"><span class="model-stat-label">BF16 VRAM</span><span class="model-stat-val">15.1 GB</span></div>
+      <div class="infra-card green">
+        <div class="infra-name">Ollama</div>
+        <div class="infra-sub">Più semplice, accoda le richieste</div>
+        <ul class="infra-pros">
+          <li>Installazione in 2 minuti su Windows/Linux/Mac</li>
+          <li>Ottimo supporto GGUF / modelli quantizzati</li>
+          <li>API OpenAI-compatible pronta</li>
+          <li>Interfaccia Open WebUI plug-and-play</li>
+        </ul>
+        <ul class="infra-pros infra-cons">
+          <li>Processa richieste in serie (queue): latenza alta sotto carico</li>
+          <li>Non adatto a picchi di 5 utenti simultanei</li>
+        </ul>
+        <div class="infra-verdict">Ok per team che usa il chatbot raramente in contemporanea. Più realistico di quanto sembri in un ufficio.</div>
       </div>
-      <div class="model-card amber">
-        <div class="model-badge badge-moe">MoE</div>
-        <div class="model-name">26B-A4B</div>
-        <div class="model-stat"><span class="model-stat-label">Param totali</span><span class="model-stat-val">26B</span></div>
-        <div class="model-stat"><span class="model-stat-label">Param attivi</span><span class="model-stat-val">4B/token</span></div>
-        <div class="model-stat"><span class="model-stat-label">Context</span><span class="model-stat-val">256K</span></div>
-        <div class="model-stat"><span class="model-stat-label">Q4 VRAM</span><span class="model-stat-val vram-mid">16.9 GB</span></div>
-        <div class="model-stat"><span class="model-stat-label">Q8 VRAM</span><span class="model-stat-val">26.9 GB</span></div>
+    </div>
+
+    <h3>Componenti software completi</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Componente</th><th>Strumento</th><th>Ruolo</th></tr></thead>
+        <tbody>
+          <tr><td>Backend inferenza</td><td>vLLM (prod) o Ollama (semplice)</td><td>Carica il modello, espone API HTTP /v1/chat</td></tr>
+          <tr><td>Interfaccia utenti</td><td><strong>Open WebUI</strong></td><td>Chat web multi-utente, history, file upload</td></tr>
+          <tr><td>Autenticazione</td><td>Open WebUI built-in</td><td>Account per ogni persona del team</td></tr>
+          <tr><td>Proxy/accesso remoto</td><td>Tailscale o VPN aziendale</td><td>Accesso al server dalla rete aziendale o remoto</td></tr>
+          <tr><td>OS server</td><td>Ubuntu 22.04+ (consigliato)</td><td>CUDA 12, vLLM, driver NVIDIA stabili</td></tr>
+          <tr><td>Monitoring</td><td>nvidia-smi + htop</td><td>Controllo VRAM e CPU del server</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- VRAM MATH -->
+  <div class="section" id="vram-math">
+    <div class="section-title">VRAM e utenti concorrenti</div>
+    <div class="section-sub">Come calcolare la VRAM necessaria per un team</div>
+
+    <p>La VRAM totale necessaria è: <strong>VRAM modello + KV cache × utenti concorrenti</strong>. Il KV cache dipende dalla lunghezza del contesto attivo per utente — per sessioni chat tipiche (2K–8K token attivi) è contenuto.</p>
+
+    <h3>Esempio: RTX 5090 32 GB + Qwen3.5-27B Q4</h3>
+    <div class="vram-calc">
+      <div class="vram-calc-title">Calcolo VRAM</div>
+      <div class="vram-row">
+        <span class="vram-row-label">Modello Qwen3.5-27B Q4_K_M</span>
+        <span class="vram-row-val">~16 GB</span>
       </div>
-      <div class="model-card red">
-        <div class="model-badge badge-dense">Dense</div>
-        <div class="model-name">31B</div>
-        <div class="model-stat"><span class="model-stat-label">Parametri</span><span class="model-stat-val">31B</span></div>
-        <div class="model-stat"><span class="model-stat-label">Context</span><span class="model-stat-val">256K</span></div>
-        <div class="model-stat"><span class="model-stat-label">Q4 VRAM</span><span class="model-stat-val vram-mid">18.3 GB</span></div>
-        <div class="model-stat"><span class="model-stat-label">Q8 VRAM</span><span class="model-stat-val">32.6 GB</span></div>
-        <div class="model-stat"><span class="model-stat-label">BF16 VRAM</span><span class="model-stat-val vram-high">61.4 GB</span></div>
+      <div class="vram-row">
+        <span class="vram-row-label">KV cache per utente (8K context attivo)</span>
+        <span class="vram-row-val">~1.2 GB</span>
+      </div>
+      <div class="vram-row">
+        <span class="vram-row-label">5 utenti concorrenti × 1.2 GB</span>
+        <span class="vram-row-val">~6 GB</span>
+      </div>
+      <div class="vram-row">
+        <span class="vram-row-label">Overhead sistema</span>
+        <span class="vram-row-val">~1 GB</span>
+      </div>
+      <div class="vram-row total">
+        <span class="vram-row-label">Totale stimato</span>
+        <span class="vram-row-val">~23 GB / 32 GB</span>
+      </div>
+    </div>
+
+    <h3>Esempio: RTX 5070 Ti 16 GB + Qwen3.5-9B Q8</h3>
+    <div class="vram-calc">
+      <div class="vram-calc-title">Calcolo VRAM</div>
+      <div class="vram-row">
+        <span class="vram-row-label">Modello Qwen3.5-9B Q8</span>
+        <span class="vram-row-val">~9 GB</span>
+      </div>
+      <div class="vram-row">
+        <span class="vram-row-label">KV cache per utente (8K context attivo)</span>
+        <span class="vram-row-val">~0.7 GB</span>
+      </div>
+      <div class="vram-row">
+        <span class="vram-row-label">5 utenti concorrenti × 0.7 GB</span>
+        <span class="vram-row-val">~3.5 GB</span>
+      </div>
+      <div class="vram-row">
+        <span class="vram-row-label">Overhead sistema</span>
+        <span class="vram-row-val">~0.5 GB</span>
+      </div>
+      <div class="vram-row total">
+        <span class="vram-row-label">Totale stimato</span>
+        <span class="vram-row-val">~13 GB / 16 GB</span>
       </div>
     </div>
 
     <div class="callout warn">
-      <strong>Tool calling accuracy: 86.4%</strong>
-      <span>Gemma 4 ha function calling nativo (non aggiunto dopo). Per l'uso agentare è un salto qualitativo rispetto a Gemma 3.</span>
-    </div>
-  </div>
-
-  <!-- QWEN3 -->
-  <div class="section" id="qwen3">
-    <div class="section-title">Alibaba Qwen3</div>
-    <div class="section-sub">Rilasciato il 28 aprile 2025 · 8 varianti · 128K context · MCP nativo</div>
-
-    <p>Qwen3 è attualmente il punto di riferimento per uso locale in italiano. Supporta 119 lingue, ha due modalità operative (thinking mode per ragionamento approfondito, non-thinking per risposte veloci), e supporta nativamente il protocollo MCP per i tool. Il Qwen3-8B supera Qwen2.5-14B su 15 benchmark.</p>
-
-    <h3>VRAM richiesta per variante</h3>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Modello</th><th>Tipo</th><th>Context</th><th>Q4 VRAM</th><th>Q8 VRAM</th><th>FP16 VRAM</th><th>Tool calling</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>0.6B</strong></td><td>Dense</td><td>32K</td><td class="vram-cell vram-ok">0.4 GB</td><td>0.6 GB</td><td>1.2 GB</td><td>Base</td></tr>
-          <tr><td><strong>1.7B</strong></td><td>Dense</td><td>32K</td><td class="vram-cell vram-ok">1.0 GB</td><td>1.7 GB</td><td>3.4 GB</td><td>Base</td></tr>
-          <tr><td><strong>4B</strong></td><td>Dense</td><td>32K</td><td class="vram-cell vram-ok">2.5 GB</td><td>4.0 GB</td><td>8.0 GB</td><td>Buono</td></tr>
-          <tr><td><strong>8B</strong></td><td>Dense</td><td>128K</td><td class="vram-cell vram-ok">4.6 GB</td><td>8.0 GB</td><td>16.0 GB</td><td>★ Ottimo</td></tr>
-          <tr><td><strong>14B</strong></td><td>Dense</td><td>128K</td><td class="vram-cell vram-mid">8.3 GB</td><td>14.0 GB</td><td>28.0 GB</td><td>★★ Eccellente</td></tr>
-          <tr><td><strong>32B</strong></td><td>Dense</td><td>128K</td><td class="vram-cell vram-mid">18.0 GB</td><td>32.0 GB</td><td>64.0 GB</td><td>★★★ Top</td></tr>
-          <tr><td><strong>30B-A3B</strong></td><td>MoE</td><td>128K</td><td class="vram-cell vram-mid">16.8 GB</td><td>28.0 GB</td><td>56.0 GB</td><td>★★★ Top</td></tr>
-          <tr><td><strong>235B-A22B</strong></td><td>MoE</td><td>128K+</td><td class="vram-cell vram-high">~132 GB</td><td>—</td><td>—</td><td>Cluster only</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- QWEN3.5 -->
-  <div class="section" id="qwen35">
-    <div class="section-title">Alibaba Qwen3.5</div>
-    <div class="section-sub">Small Series: 2 marzo 2026 · Flagship: 16 febbraio 2026 · Context fino a 1M token</div>
-
-    <p>Qwen3.5 porta context window enormi (fino a 1 milione di token sui modelli flagship) e una famiglia MoE più efficiente. Le versioni small (0.8B–9B) sono ottimizzate per dispositivi edge e integrazione in applicazioni. I flagship (27B+) reggono il confronto con GPT-4o su molti task.</p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Modello</th><th>Tipo</th><th>Context</th><th>Q4 VRAM</th><th>Q8 VRAM</th><th>Note</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>0.8B</strong></td><td>Dense</td><td>32K</td><td class="vram-cell vram-ok">~0.5 GB</td><td>~0.8 GB</td><td>Edge / mobile</td></tr>
-          <tr><td><strong>2B</strong></td><td>Dense</td><td>32K</td><td class="vram-cell vram-ok">~1.2 GB</td><td>~2 GB</td><td>Edge</td></tr>
-          <tr><td><strong>4B</strong></td><td>Dense</td><td>32K</td><td class="vram-cell vram-ok">~2.5 GB</td><td>~4 GB</td><td>Entry level</td></tr>
-          <tr><td><strong>9B</strong></td><td>Dense</td><td>128K</td><td class="vram-cell vram-ok">~5.1 GB</td><td>~9 GB</td><td>Buon compromesso</td></tr>
-          <tr><td><strong>27B</strong></td><td>Dense</td><td>256K</td><td class="vram-cell vram-mid">~16.1 GB</td><td>~27 GB</td><td>Alta qualità</td></tr>
-          <tr><td><strong>35B-A3B</strong></td><td>MoE</td><td>256K</td><td class="vram-cell vram-mid">~19.6 GB</td><td>~35 GB</td><td>Ottimo rapporto perf/VRAM</td></tr>
-          <tr><td><strong>122B-A10B</strong></td><td>MoE</td><td>1M</td><td class="vram-cell vram-high">~70 GB</td><td>—</td><td>Workstation multi-GPU</td></tr>
-          <tr><td><strong>397B-A17B</strong></td><td>MoE</td><td>1M</td><td class="vram-cell vram-high">~222 GB</td><td>—</td><td>Cluster obbligatorio</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- QWEN3.6 -->
-  <div class="section" id="qwen36">
-    <div class="section-title">Alibaba Qwen3.6</div>
-    <div class="section-sub">35B-A3B open-weight: 16 aprile 2026 · Altri modelli: API-only, open-weight imminente</div>
-
-    <p>Qwen3.6 è appena arrivato: al momento solo il <strong>35B-A3B</strong> è disponibile come open-weight scaricabile. Le altre varianti (27B dense, 122B-A10B MoE) sono attualmente API-only, ma il rilascio open-weight è atteso a breve. L'architettura MoE del 35B-A3B è particolarmente efficiente: consuma come un modello da ~20 GB ma performa come uno molto più grande.</p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Modello</th><th>Tipo</th><th>Disponibilità</th><th>Q4 VRAM</th><th>Note</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>35B-A3B</strong></td><td>MoE</td><td>✅ Open-weight</td><td class="vram-cell vram-mid">~19–20 GB</td><td>Disponibile ora su HuggingFace</td></tr>
-          <tr><td><strong>27B</strong></td><td>Dense</td><td>⏳ API only</td><td class="vram-cell vram-mid">~16 GB (stima)</td><td>Open-weight imminente</td></tr>
-          <tr><td><strong>122B-A10B</strong></td><td>MoE</td><td>⏳ API only</td><td class="vram-cell vram-high">~75 GB (stima)</td><td>Multi-GPU necessario</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="callout info">
-      <strong>Da tenere d'occhio</strong>
-      <span>Qwen3.6-35B-A3B è appena uscito. Non ci sono ancora benchmark estensivi, ma l'architettura è la stessa di Qwen3.5 con raffinamenti. Vale la pena testarlo appena disponibile su LM Studio.</span>
+      <strong>Attenzione: context window ≠ context attivo</strong>
+      <span>Il modello supporta 128K token di context window, ma il KV cache si accumula solo per i token effettivamente nella sessione. Una chat tipica ha 2K–8K token attivi, non 128K. Se le sessioni diventano molto lunghe (procedure lunghe + molti scambi), il KV cache cresce proporzionalmente.</span>
     </div>
   </div>
 
   <div class="divider"></div>
 
-  <!-- HARDWARE TIERS -->
+  <!-- MODELLI -->
+  <div class="section" id="modelli">
+    <div class="section-title">Modelli consigliati</div>
+    <div class="section-sub">Tabella unificata — filtrata per rilevanza al progetto (tool calling + italiano + locale)</div>
+
+    <div class="callout warn">
+      <strong>Qwen3 (aprile 2025) è superato da Qwen3.5 e Qwen3.6</strong>
+      <span>Qwen3-14B era la scelta giusta un anno fa. Oggi Qwen3.5-9B Q8 offre qualità simile con meno VRAM, e Qwen3.5-27B supera Qwen3-32B su task agentici con context più lungo (256K). Prioritizzare la famiglia 3.5.</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Modello</th><th>Famiglia</th><th>Tipo</th><th>Context</th><th>Q4 VRAM</th><th>Q8 VRAM</th><th>Tool calling</th><th>Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Qwen3.5-9B</strong></td><td>Qwen3.5</td><td>Dense</td><td>128K</td>
+            <td class="vram-cell vram-ok">~5 GB</td><td class="vram-cell vram-ok">~9 GB</td>
+            <td>★★ Buono</td><td>Ideale 16 GB VRAM a Q8</td>
+          </tr>
+          <tr>
+            <td><strong>Qwen3.5-27B</strong></td><td>Qwen3.5</td><td>Dense</td><td>256K</td>
+            <td class="vram-cell vram-mid">~16 GB</td><td class="vram-cell vram-high">~27 GB</td>
+            <td>★★★ Eccellente</td><td><strong>★ Scelta principale con 32 GB</strong></td>
+          </tr>
+          <tr>
+            <td>Qwen3.6-35B-A3B</td><td>Qwen3.6</td><td>MoE</td><td>256K</td>
+            <td class="vram-cell vram-mid">~19 GB</td><td class="vram-cell vram-high">~35 GB</td>
+            <td>★★★ Top</td><td>Open-weight da aprile 2026, da testare</td>
+          </tr>
+          <tr>
+            <td>Gemma 4 26B-A4B</td><td>Gemma 4</td><td>MoE</td><td>256K</td>
+            <td class="vram-cell vram-mid">~17 GB</td><td>—</td>
+            <td>★★★ 86.4%</td><td>Alternativa valida con 32 GB</td>
+          </tr>
+          <tr>
+            <td>Qwen3.5-35B-A3B</td><td>Qwen3.5</td><td>MoE</td><td>256K</td>
+            <td class="vram-cell vram-mid">~20 GB</td><td>—</td>
+            <td>★★★ Top</td><td>Buono rapporto perf/VRAM su 32 GB</td>
+          </tr>
+          <tr>
+            <td style="color:var(--ink-light)">Qwen3-14B <span style="font-size:11px">(legacy)</span></td>
+            <td style="color:var(--ink-light)">Qwen3</td><td style="color:var(--ink-light)">Dense</td><td style="color:var(--ink-light)">128K</td>
+            <td class="vram-cell" style="color:var(--ink-light)">~8 GB</td><td class="vram-cell" style="color:var(--ink-light)">~14 GB</td>
+            <td style="color:var(--ink-light)">★★ Buono</td><td style="color:var(--ink-light)">Superato da Qwen3.5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- HARDWARE -->
   <div class="section" id="hardware">
-    <div class="section-title">Configurazioni hardware consigliate</div>
-    <div class="section-sub">Organizzate per fascia di budget e caso d'uso</div>
+    <div class="section-title">Hardware — configurazioni server</div>
+    <div class="section-sub">Prezzi rilevati aprile 2026 — idealo.it / trovaprezzi.it</div>
 
     <div class="tier-list">
 
       <div class="tier budget">
         <div class="tier-label">
           <div class="tier-name">Budget</div>
-          <div class="tier-price">~300–500 €</div>
+          <div class="tier-price">~€ 955 GPU</div>
         </div>
         <div class="tier-content">
-          <div class="tier-hw">RTX 3060 12 GB / RTX 4060 8 GB</div>
-          <div class="tier-models">Modelli: Qwen3-8B Q4 (4.6 GB) · Gemma 4 E4B Q4 (5 GB)</div>
-          <div class="tier-note">Funziona per procedure semplici. La qualità del tool calling con 8B è sufficiente ma non sempre affidabile su procedure complesse. RTX 4060 8GB è stretta: meglio 12GB.</div>
+          <div class="tier-hw">RTX 5070 Ti 16 GB GDDR7 — ~€ 955</div>
+          <div class="tier-models">Modello: Qwen3.5-9B Q8 (9 GB) · 5 utenti light · Ollama server</div>
+          <div class="tier-note">Funziona bene se il team raramente usa il chatbot in contemporanea. GDDR7 compensa la VRAM ridotta con banda di memoria superiore rispetto alla 4070 Ti. Vram per KV cache limitata con carico pesante.</div>
         </div>
       </div>
 
       <div class="tier mid">
         <div class="tier-label">
-          <div class="tier-name">Mid-range</div>
-          <div class="tier-price">~600–900 €</div>
+          <div class="tier-name">Mid</div>
+          <div class="tier-price">~€ 1.500–1.800 GPU</div>
         </div>
         <div class="tier-content">
-          <div class="tier-hw">RTX 4070 Ti 12 GB / RTX 4070 Super 12 GB</div>
-          <div class="tier-models">Modelli: Qwen3-14B Q4 (8.3 GB) · Qwen3.5-9B Q8 (9 GB)</div>
-          <div class="tier-note">Sweet spot qualità/prezzo. Qwen3-14B in Q4 è la scelta ideale per questo progetto: tool calling eccellente, 128K context, italiano nativo.</div>
+          <div class="tier-hw">RTX 5080 16 GB GDDR7 — ~€ 1.200 / RTX 4090 24 GB — ~€ 3.000</div>
+          <div class="tier-models">RTX 5080: Qwen3.5-9B Q8 — limitato a 16 GB · RTX 4090: Qwen3.5-27B Q4 (16 GB) — ottimo</div>
+          <div class="tier-note">RTX 4090 a 24 GB rimane competitivo e si trova ancora. RTX 5080 ha 16 GB come la 5070 Ti ma più throughput — non cambia i modelli che puoi caricare.</div>
         </div>
       </div>
 
       <div class="tier high">
         <div class="tier-label">
-          <div class="tier-name">High-end</div>
-          <div class="tier-price">~1.200–1.800 €</div>
+          <div class="tier-name">★ Ottimale</div>
+          <div class="tier-price">~€ 3.400 GPU</div>
         </div>
         <div class="tier-content">
-          <div class="tier-hw">RTX 3090 24 GB / RTX 4090 24 GB</div>
-          <div class="tier-models">Modelli: Qwen3-32B Q4 (18 GB) · Gemma 4 31B Q4 (18.3 GB) · Gemma 4 26B-A4B Q4 (16.9 GB)</div>
-          <div class="tier-note">Qualità top per uso locale. Qwen3-32B in Q4 entra comodamente in 24 GB. RTX 4090 è la GPU consumer più performante disponibile — inferenza rapida anche su modelli grandi.</div>
+          <div class="tier-hw">RTX 5090 32 GB GDDR7 — ~€ 3.400–3.650</div>
+          <div class="tier-models">Modello: Qwen3.5-27B Q4 (16 GB) · 32 GB VRAM · 5+ utenti confortevole · vLLM server</div>
+          <div class="tier-note">32 GB GDDR7 è il sweet spot 2026 per LLM locali multi-utente. 30–40% più veloce del 4090 su inferenza AI. Qwen3.5-27B in Q4 entra con ampio margine per KV cache. Scelta consigliata per questo progetto.</div>
         </div>
       </div>
 
       <div class="tier workstation">
         <div class="tier-label">
-          <div class="tier-name">Workstation</div>
-          <div class="tier-price">3.000–8.000 €</div>
+          <div class="tier-name">Server</div>
+          <div class="tier-price">€ 4.000–8.000 GPU</div>
         </div>
         <div class="tier-content">
-          <div class="tier-hw">RTX 6000 Ada 48 GB / A6000 48 GB / dual RTX 3090</div>
-          <div class="tier-models">Modelli: tutti i Q4 e Q8 fino a 32B · Qwen3.5-27B Q8 (27 GB) · Qwen3.6-35B-A3B Q8</div>
-          <div class="tier-note">Per ambienti multi-utente o compilazione parallela. Con 48 GB si eseguono Q8 di quasi tutto. RTX 6000 Ada è la scelta professionale più comune.</div>
+          <div class="tier-hw">RTX 6000 Ada 48 GB / Dual RTX 5090 64 GB</div>
+          <div class="tier-models">48 GB: Qwen3.5-27B Q8 (27 GB) · Dual 5090: modelli 70B o 10+ utenti</div>
+          <div class="tier-note">Per ambienti con 10+ utenti o modelli molto grandi. RTX 6000 Ada è professionale (ECC, supporto driver datacenter). Dual 5090 serve NVLink o tensor parallelism via vLLM.</div>
         </div>
       </div>
 
       <div class="tier apple">
         <div class="tier-label">
           <div class="tier-name">Apple Silicon</div>
-          <div class="tier-price">Vari</div>
+          <div class="tier-price">€ 2.500–4.000</div>
         </div>
         <div class="tier-content">
-          <div class="tier-hw">Mac Mini M4 Pro 24 GB · Mac Studio M4 Max 64–128 GB · MacBook Pro M4 Max</div>
-          <div class="tier-models">24 GB: Qwen3-14B Q8 · 64 GB: Qwen3-32B Q8, Gemma 4 26B-A4B Q8 · 128 GB: Qwen3.5-27B BF16</div>
-          <div class="tier-note">Vantaggio chiave: la memoria unificata CPU+GPU non ha bottleneck di trasferimento. Consumi energetici bassissimi. Mac Mini M4 Pro da 24 GB è straordinario per il prezzo (circa 1.400 €). LM Studio è ottimizzato per Metal.</div>
+          <div class="tier-hw">Mac Studio M4 Max 64 GB — ~€ 2.500 / Mac Studio M4 Ultra 192 GB — ~€ 4.000+</div>
+          <div class="tier-models">64 GB: Qwen3.5-27B Q8 (27 GB) · 192 GB: modelli 70B+ · Ollama + Metal</div>
+          <div class="tier-note">Memoria unificata CPU+GPU: zero bottleneck di trasferimento. Consumi bassissimi (~30W idle), silenzioso, ideale come server d'ufficio H24. Svantaggio: vLLM non supporta Metal nativamente — si usa Ollama o llama.cpp.</div>
         </div>
       </div>
 
     </div>
 
-    <h3>CPU + RAM (requisiti minimi di sistema)</h3>
+    <h3>Requisiti macchina server (oltre alla GPU)</h3>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Componente</th><th>Minimo</th><th>Consigliato</th><th>Note</th></tr></thead>
         <tbody>
-          <tr><td>CPU</td><td>8 core</td><td>12+ core (i7-12700, Ryzen 7 5800X)</td><td>Usata per layer overflow quando VRAM è piena</td></tr>
-          <tr><td>RAM</td><td>16 GB</td><td>32 GB</td><td>Con GPU dedicata la RAM conta meno; 16 GB sufficienti</td></tr>
-          <tr><td>Storage</td><td>SSD 512 GB</td><td>NVMe 1 TB</td><td>I modelli Q4 pesano 5–20 GB ciascuno; NVMe riduce il caricamento</td></tr>
-          <tr><td>OS</td><td>Windows 10 / macOS 12</td><td>Windows 11 / macOS 14</td><td>CUDA 12+ per GPU NVIDIA; Metal 3 per Apple</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- RACCOMANDAZIONE -->
-  <div class="section" id="raccomandazione">
-    <div class="section-title">Raccomandazione per questo progetto</div>
-    <div class="section-sub">Scelta ottimale per Wiki Aziendale LLM — agente compiler con 6 tool</div>
-
-    <div class="rec-box">
-      <div class="rec-box-label">★ Scelta principale</div>
-      <div class="rec-title">Qwen3-14B Q4 + RTX 4070 Ti 12 GB</div>
-      <div class="rec-why">Miglior equilibrio tra qualità del tool calling, supporto italiano, context window (128K) e costo hardware. Il 14B in Q4 occupa solo 8.3 GB di VRAM — entra comodo in 12 GB con spazio per il KV cache. Supera modelli più grandi su task agentici grazie all'addestramento specifico Qwen.</div>
-      <div class="rec-specs">
-        <div class="rec-spec"><div class="rec-spec-label">VRAM usata</div><div class="rec-spec-val">8.3 GB Q4</div></div>
-        <div class="rec-spec"><div class="rec-spec-label">Context window</div><div class="rec-spec-val">128K token</div></div>
-        <div class="rec-spec"><div class="rec-spec-label">Italiano</div><div class="rec-spec-val">Nativo (119 lingue)</div></div>
-        <div class="rec-spec"><div class="rec-spec-label">Tool calling</div><div class="rec-spec-val">Eccellente</div></div>
-      </div>
-    </div>
-
-    <h3>Alternative per ogni budget</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Budget GPU</th><th>Hardware</th><th>Modello consigliato</th><th>Qualità agente</th></tr></thead>
-        <tbody>
-          <tr><td>~300 €</td><td>RTX 3060 12 GB</td><td>Qwen3-8B Q4 (4.6 GB)</td><td>Sufficiente per procedure semplici</td></tr>
-          <tr><td>~700 €</td><td>RTX 4070 Ti 12 GB</td><td><strong>Qwen3-14B Q4 (8.3 GB)</strong></td><td>⭐ Ottimale per il progetto</td></tr>
-          <tr><td>~1.800 €</td><td>RTX 4090 24 GB</td><td>Qwen3-32B Q4 (18 GB)</td><td>Eccellente, margine per crescere</td></tr>
-          <tr><td>~1.400 €</td><td>Mac Mini M4 Pro 24 GB</td><td>Qwen3-14B Q8 (14 GB)</td><td>Ottimale, consumi ridotti, silenzioso</td></tr>
-          <tr><td>~2.500 €</td><td>Mac Studio M4 Max 64 GB</td><td>Qwen3-32B Q8 (32 GB)</td><td>Top qualità, ideale per ufficio</td></tr>
-          <tr><td>~5.000 €</td><td>RTX 6000 Ada 48 GB</td><td>Qwen3.5-35B-A3B Q8 (35 GB)</td><td>Server multi-utente</td></tr>
+          <tr><td>CPU</td><td>8 core</td><td>12+ core (i7-13700, Ryzen 9 7900X)</td><td>CPU gestisce routing API e overflow layer se VRAM satura</td></tr>
+          <tr><td>RAM</td><td>32 GB</td><td>64 GB</td><td>Con 5 utenti e processi backend serve più RAM di sistema rispetto all'uso singolo</td></tr>
+          <tr><td>Storage</td><td>NVMe 1 TB</td><td>NVMe 2 TB</td><td>Modelli Q4 pesano 15–30 GB ciascuno; NVMe riduce il caricamento iniziale</td></tr>
+          <tr><td>Rete</td><td>Gigabit LAN</td><td>Gigabit LAN con IP fisso</td><td>IP fisso (o DHCP riservato) per puntare Open WebUI da tutti i client</td></tr>
+          <tr><td>OS</td><td>Ubuntu 22.04</td><td>Ubuntu 24.04 LTS</td><td>CUDA 12.4+, driver NVIDIA 550+. Windows con WSL2 è alternativa accettabile</td></tr>
+          <tr><td>Alimentazione</td><td>850W PSU</td><td>1000W PSU</td><td>RTX 5090 ha TDP 575W; server CPU + RAM + NVMe aggiungono 100–150W</td></tr>
         </tbody>
       </table>
     </div>
 
-    <div class="callout warn">
-      <strong>Da tenere d'occhio: Gemma 4 26B-A4B</strong>
-      <span>Con 86.4% di accuratezza nel tool calling e 256K di context, il modello MoE di Google è un'alternativa seria al Qwen3-14B. Richiede però 16-17 GB di VRAM in Q4, quindi esclude le GPU da 12 GB. Se hai una 24 GB, vale il confronto diretto.</span>
-    </div>
-
-    <div class="callout info">
-      <strong>Nota su LM Studio</strong>
-      <span>Tutti i modelli citati sono compatibili con LM Studio (Windows + Apple Silicon). Preferire GGUF Q4_K_M per il miglior equilibrio qualità/dimensione. Su Apple Silicon usare i file ottimizzati per Metal.</span>
-    </div>
+    <p class="price-note">Prezzi GPU rilevati aprile 2026 su <a href="https://www.idealo.it">idealo.it</a> e <a href="https://www.trovaprezzi.it">trovaprezzi.it</a>. Prezzi possono variare. RTX 5090 disponibile ma con scorte altalenanti.</p>
   </div>
 
 </div>

@@ -6,7 +6,7 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=black)
 ![SQLite](https://img.shields.io/badge/SQLite-aiosqlite-003b57?logo=sqlite&logoColor=white)
-![Agno](https://img.shields.io/badge/AI-Agno_1.4-6366f1)
+![Agno](https://img.shields.io/badge/AI-Agno_2.5-6366f1)
 ![License](https://img.shields.io/badge/License-MIT-22c55e)
 
 ---
@@ -49,13 +49,14 @@ Non è un sistema RAG. La conoscenza viene compilata una volta e servita dal dat
 | Layer | Tecnologia |
 |---|---|
 | Backend | FastAPI 0.115 + Uvicorn, Python 3.11+ |
-| AI agent | [Agno](https://agno.ai) 1.4 |
+| AI agent | [Agno](https://agno.ai) 2.5 |
 | Database | SQLite + SQLAlchemy asyncio + aiosqlite |
 | Schema / Config | Pydantic v2 + pydantic-settings |
 | Migrazioni | Alembic |
-| Frontend | React 18 + Vite + TypeScript |
+| Frontend | React 18 + TypeScript 5.6 |
+| Build / Dev server | Vite 6 + @vitejs/plugin-react |
 | UI | Tailwind CSS 3 |
-| State | TanStack Query + Zustand |
+| State | TanStack Query 5 + Zustand 5 |
 
 ---
 
@@ -236,7 +237,10 @@ WikiAziendale/
 │       └── components/
 ├── docs/
 │   ├── manuale-tecnico.html
-│   └── manuale-utente.html
+│   ├── manuale-utente.html
+│   ├── hardware-llm.html
+│   ├── MANUALE-TECNICO.md
+│   └── MANUALE-UTENTE.md
 └── fixtures/               ← 18 procedure campione
 ```
 
@@ -248,6 +252,7 @@ WikiAziendale/
 |---|---|
 | [Manuale Tecnico](docs/manuale-tecnico.html) | Sviluppatori e sysadmin |
 | [Manuale Utente](docs/manuale-utente.html) | Utenti finali |
+| [Hardware & LLM](docs/hardware-llm.html) | Requisiti hardware e modelli consigliati |
 | [Come Funziona](COME-FUNZIONA.md) | Overview non tecnico |
 
 ---
