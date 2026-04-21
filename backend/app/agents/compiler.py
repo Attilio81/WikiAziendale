@@ -173,7 +173,7 @@ def make_compiler_agent(db: AsyncSession):
 
     prompt_path = Path(__file__).parent / "prompts" / "compiler.md"
     system_prompt = prompt_path.read_text(encoding="utf-8")
-    if settings.LLM_DISABLE_THINKING:
+    if settings.LLM_DISABLE_THINKING_COMPILER:
         system_prompt = "/no_think\n\n" + system_prompt
 
     agent = Agent(

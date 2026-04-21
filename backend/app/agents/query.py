@@ -65,7 +65,7 @@ def make_query_agent(db: AsyncSession, session_id: str):
     tools, _ = make_query_tools(db)
     prompt_path = Path(__file__).parent / "prompts" / "query.md"
     system_prompt = prompt_path.read_text(encoding="utf-8")
-    if settings.LLM_DISABLE_THINKING:
+    if settings.LLM_DISABLE_THINKING_QUERY:
         system_prompt = "/no_think\n\n" + system_prompt
 
     agent = Agent(
